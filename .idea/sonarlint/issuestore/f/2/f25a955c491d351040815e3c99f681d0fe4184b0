@@ -1,0 +1,32 @@
+
+r	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•ô±Íúÿÿÿÿ8³¥Ëñ0
+r	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•ô±Íúÿÿÿÿ8³¥Ëñ0
+m	java:S117'"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÏÃ«8´¥Ëñ0
+r	java:S117P"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(åÖ²–şÿÿÿÿ8´¥Ëñ0
+r	java:S117P"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(åÖ²–şÿÿÿÿ8´¥Ëñ0
+w
+java:S1104"UMake NodeValue a static final constant or non-public and provide accessors if needed.(òı´€úÿÿÿÿ8´¥Ëñ0
+t
+java:S1104"RMake Parent a static final constant or non-public and provide accessors if needed.(ôûúÿÿÿÿ8´¥Ëñ0
+q
+java:S1104	"TMake Children a static final constant or non-public and provide accessors if needed.(ä·å8´¥Ëñ0
+m
+java:S1104"PMake Root a static final constant or non-public and provide accessors if needed.(­£Î®8´¥Ëñ0
+v	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ÀÕä8ÉôÎñ0
+u	java:S116"TRename this field "NodeValue" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(òı´€úÿÿÿÿ8º¥Ëñ0
+r	java:S116"QRename this field "Parent" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ôûúÿÿÿÿ8»¥Ëñ0
+o	java:S116	"SRename this field "Children" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ä·å8½¥Ëñ0
+k	java:S116"ORename this field "Root" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(­£Î®8¿¥Ëñ0
+o	java:S100"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•ô±Íúÿÿÿÿ8À¥Ëñ0
+j	java:S100'"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÏÃ«8Á¥Ëñ0
+j	java:S100?"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(äÛÿÊ8Á¥Ëñ0
+H
+java:S1168A"+Return an empty collection instead of null.(ÚôØÇ8Ã¥Ëñ0
+o	java:S100G"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(½Ñ„†ıÿÿÿÿ8Â¥Ëñ0
+H
+java:S1168J"+Return an empty collection instead of null.(ÚôØÇ8ğ®Ëñ0
+o	java:S100P"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(åÖ²–şÿÿÿÿ8Ã¥Ëñ0
+o	java:S100_"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(æ¹»Úøÿÿÿÿ8Ä¥Ëñ0
+o	java:S100e"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÿæ¿šøÿÿÿÿ8Ä¥Ëñ0
+o	java:S100k"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ˆá†êşÿÿÿÿ8Ê¶Ëñ0
+j	java:S100t"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(”Æ…Ñ8ÅÓ¸Ëñ0
