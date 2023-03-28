@@ -10,6 +10,8 @@ class DeleteNodeByKey_Test {
     BST<Integer> emptyTree = new BST<>(null); // пустое дерево без корня
     BSTNode<Integer> rootNode = new BSTNode<>(8, 8, null); // задаем корень непустого дерева
     BST<Integer> tree = new BST<>(rootNode); // непустое дерево
+    BSTNode<Integer> onlyRootNode = new BSTNode<>(10, 10, null); // корень для дерева только из одного корня
+    BST<Integer> onlyRootTree = new BST<>(onlyRootNode); // задаем непустое дерево, в котором только корень и все
     // Задаем используемые ключи
     BSTNode<Integer> node_1 = new BSTNode<>(1, 1, null);
     BSTNode<Integer> node_2 = new BSTNode<>(2, 2, null);
@@ -52,6 +54,150 @@ class DeleteNodeByKey_Test {
 
     @Test
     @DisplayName("1) Удаление листа, если он есть")
-    void deleteNodeByKey() throws Exception {
+    void deleteNodeByKey_existing_leaf() throws Exception {
+        // 1) Проверяем наличие узла перед удалением
+        assertTrue(node_2.LeftChild == node_1);
+        assertTrue(node_1.Parent == node_2);
+
+        // Произвели удаление
+        boolean res = tree.DeleteNodeByKey(1);
+
+        // 2) Отсутствие узла после удаления
+        assertFalse(node_2.LeftChild == node_1);
+        assertFalse(node_1.Parent == node_2);
+
+        // 3) Результат работы метода
+        assertEquals(res, true);
+    }
+
+    @Test
+    @DisplayName("2) Удаление листа, если его нет")
+    void deleteNodeByKey_non_existing_key() throws Exception {
+        // Произвели удаление
+        boolean res = tree.DeleteNodeByKey(20);
+
+        // Результат работы метода
+        assertEquals(res, false);
+    }
+
+    @Test
+    @DisplayName("3) Удаление узла с одним потомком")
+    void deleteNodeByKey_node_with_one_child() throws Exception {
+        // 1) Проверяем наличие узла перед удалением
+        assertTrue(node_4.LeftChild == node_2);
+        assertTrue(node_2.Parent == node_4);
+        assertTrue(node_2.LeftChild == node_1);
+        assertTrue(node_1.Parent == node_2);
+
+        // Произвели удаление
+        boolean res = tree.DeleteNodeByKey(2);
+
+        // 2) Отсутствие узла после удаления
+        assertFalse(node_4.LeftChild == node_2);
+        assertFalse(node_2.Parent == node_4);
+        assertFalse(node_2.LeftChild == node_1);
+        assertFalse(node_1.Parent == node_2);
+
+        assertTrue(node_4.LeftChild == node_1);
+        assertTrue(node_1.Parent == node_4);
+
+        // 3) Результат работы метода
+        assertEquals(res, true);
+    }
+
+    @Test
+    @DisplayName("4) Удаление узла с двумя потомками")
+    void deleteNodeByKey_node_with_both_children() throws Exception {
+        // 1) Проверяем наличие узла перед удалением
+        assertTrue(rootNode.RightChild == node_12);
+        assertTrue(node_12.Parent == rootNode);
+        assertTrue(node_12.LeftChild == node_10);
+        assertTrue(node_10.Parent == node_12);
+        assertTrue(node_12.RightChild == node_14);
+        assertTrue(node_14.Parent == node_12);
+
+        // Произвели удаление
+        boolean res = tree.DeleteNodeByKey(12);
+
+        // 2) Отсутствие узла после удаления
+        assertFalse(rootNode.RightChild == node_12);
+        assertFalse(node_12.Parent == rootNode);
+        assertFalse(node_12.LeftChild == node_10);
+        assertFalse(node_10.Parent == node_12);
+        assertFalse(node_12.RightChild == node_14);
+        assertFalse(node_14.Parent == node_12);
+
+        assertTrue(rootNode.RightChild == node_13);
+        assertTrue(node_13.Parent == rootNode);
+        assertTrue(node_13.LeftChild == node_10);
+        assertTrue(node_10.Parent == node_13);
+        assertTrue(node_13.RightChild == node_14);
+        assertTrue(node_14.Parent == node_13);
+
+        assertTrue(node_14.LeftChild == null);
+        assertTrue(node_14.RightChild == node_15);
+        assertTrue(node_15.Parent == node_14);
+
+        // 3) Результат работы метода
+        assertEquals(res, true);
+    }
+
+    @Test
+    @DisplayName("5) Удаление листа из пустого дерева")
+    void deleteNodeByKey_empty_tree() throws Exception {
+        // Произвели удаление
+        boolean res = emptyTree.DeleteNodeByKey(12);
+
+        // Результат работы метода
+        assertEquals(res, false);
+    }
+
+    @Test
+    @DisplayName("6) Попытка удалить корень дерева (без потомков")
+    void deleteNodeByKey_root_no_children() throws Exception {
+        // 1) Проверяем наличие узла перед удалением
+        assertTrue(onlyRootTree.Root == onlyRootNode);
+
+        // Произвели удаление
+        boolean res = onlyRootTree.DeleteNodeByKey(10); // удаляем по сути единственный узел - корень с ключом 10
+
+        // 2) Отсутствие узла после удаления
+        assertTrue(onlyRootTree.Root == null);
+
+        // Результат работы метода
+        assertEquals(res, true);
+    }
+
+    @Test
+    @DisplayName("7) Удаление корня, у которого есть потомки")
+    void deleteNodeByKey_root_all_children() throws Exception {
+        // 1) Проверяем наличие узла перед удалением
+        assertTrue(tree.Root == rootNode);
+        assertTrue(rootNode.LeftChild == node_4);
+        assertTrue(rootNode.RightChild == node_12);
+        assertTrue(node_4.Parent == rootNode);
+        assertTrue(node_12.Parent == rootNode);
+
+        // Произвели удаление
+        boolean res = tree.DeleteNodeByKey(8); // удалили корень дерева
+
+        // 2) Отсутствие узла после удаления
+        assertFalse(tree.Root == rootNode);
+        assertFalse(rootNode.LeftChild == node_4);
+        assertFalse(rootNode.RightChild == node_12);
+        assertFalse(node_4.Parent == rootNode);
+        assertFalse(node_12.Parent == rootNode);
+
+        assertTrue(tree.Root == node_10); // у дерева обновляется корень
+        assertTrue(node_10.Parent == null);
+        assertTrue(node_10.LeftChild == node_4);
+        assertTrue(node_4.Parent == node_10);
+        assertTrue(node_10.RightChild == node_12);
+        assertTrue(node_12.Parent == node_10);
+        assertTrue(node_12.LeftChild == null);
+        assertTrue(node_12.RightChild == node_14);
+
+        // Результат работы метода
+        assertEquals(res, true);
     }
 }
