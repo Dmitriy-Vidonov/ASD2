@@ -110,8 +110,24 @@ class BST<T> { // Класс бинарного дерева поиска
 
     public BSTNode<T> FinMinMax(BSTNode<T> FromNode, boolean FindMax) { // поиск узла с макс. или мин. ключом
         // если FindMax == true, то ищем максимальный, если false - ищем минимальный
+        if(Root == null) return null; // если дерево без корня
+        if(Root.LeftChild == null && Root.RightChild == null) return Root; // если дерево состоит из одного лишь корня
 
-        return null; // видимо на случай пустого дерева
+        if(FindMax == false) // если нам надо найти минимальное значение
+            return FinMinHelper(FromNode);
+        return FinMaxHelper(FromNode); // иначе будем искать максимальное значение
+    }
+
+    private BSTNode<T> FinMinHelper(BSTNode<T> FromNode) { // вспомогательный рекурсивный метод поиска минимального ключа
+        if(FromNode.RightChild == null && FromNode.LeftChild == null) // если мы дошли до узла, это крайнее значение и дальше идти не надо
+            return FromNode; // просто возвращаем узел, т.к. дальше идти некуда
+        return FinMinHelper(FromNode.LeftChild); // каждый раз берем левого потомка и идем по сути до конца дерева
+    }
+
+    private BSTNode<T> FinMaxHelper(BSTNode<T> FromNode) { // вспомогательный рекурсивный метод поиска максимального ключа
+        if(FromNode.RightChild == null && FromNode.LeftChild == null)
+            return FromNode;
+        return FinMaxHelper(FromNode.RightChild); // каждый раз берем правого потомка и идем до конца дерева
     }
 
     public boolean DeleteNodeByKey(int key) { // удаление узла по ключу
@@ -120,24 +136,5 @@ class BST<T> { // Класс бинарного дерева поиска
 
     public int Count() { // подсчет количества узлов в дереве
         return 0; // если дерево без узлов
-    }
-
-    // Тесты
-    public static void main(String[] args) {
-        BSTNode<Integer> rootNode = new BSTNode<>(10, 10, null); // задаем корень
-        BST<Integer> tree = new BST<>(rootNode); // задаем непустое дерево
-        BST<Integer> emptyTree = new BST<>(null); // задаем пустое дерево
-
-        BSTNode<Integer> node_9 = new BSTNode<>(9, 9, rootNode);
-        BSTNode<Integer> node_8 = new BSTNode<>(8, 8, node_9);
-        BSTNode<Integer> node_12 = new BSTNode<>(12, 12, node_9);
-        BSTNode<Integer> node_20 = new BSTNode<>(20, 20, rootNode);
-
-        tree.Root.LeftChild = node_9;
-        node_9.LeftChild = node_8;
-        node_9.RightChild = node_12;
-        rootNode.RightChild = node_20;
-
-        System.out.println(tree.FindNodeByKey(8).NodeHasKey);
     }
 }

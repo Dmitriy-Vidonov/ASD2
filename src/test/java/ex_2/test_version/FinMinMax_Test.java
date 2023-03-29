@@ -8,9 +8,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FinMinMax_Test {
     // Задаем узлы и деревья, которые будем использовать в тестах
-    BSTNode<Integer> rootNode = new BSTNode<>(10, 10, null); // задаем корень
+    BSTNode<Integer> rootNode = new BSTNode<>(18, 18, null); // задаем корень
     BST<Integer> tree = new BST<>(rootNode); // задаем непустое дерево
-    BSTNode<Integer> onlyRootNode = new BSTNode<>(10, 10, null); // корень для дерева только из одного корня
+    BSTNode<Integer> onlyRootNode = new BSTNode<>(18, 18, null); // корень для дерева только из одного корня
     BST<Integer> onlyRootTree = new BST<>(onlyRootNode); // задаем непустое дерево, в котором только корень и все
     BST<Integer> emptyTree = new BST<>(null); // задаем пустое дерево
     BSTNode<Integer> node_9 = new BSTNode<>(9, 9, rootNode);
@@ -32,20 +32,20 @@ class FinMinMax_Test {
         node_9.RightChild = node_12;
         rootNode.RightChild = node_20;
         node_8.LeftChild = node_6;
-        node_8.RightChild = node_11;
         node_12.RightChild = node_15;
         node_20.RightChild = node_35;
         node_20.LeftChild = node_19;
+        node_12.LeftChild = node_11;
         // задаем родителей
         node_9.Parent = rootNode;
         node_20.Parent = rootNode;
         node_8.Parent = node_9;
         node_12.Parent = node_9;
         node_6.Parent = node_8;
-        node_11.Parent = node_8;
         node_15.Parent = node_12;
         node_35.Parent = node_20;
         node_19.Parent = node_20;
+        node_11.Parent = node_12;
     }
     @Test
     @DisplayName("1) Поиск минимума по поддереву")
