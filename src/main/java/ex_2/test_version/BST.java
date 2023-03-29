@@ -133,6 +133,54 @@ class BST<T> { // Класс бинарного дерева поиска
     }
 
     public boolean DeleteNodeByKey(int key) { // удаление узла по ключу
+        // если дерево пустое и в нем нет даже корня
+        if(this.Root == null) return false;
+        // если дерево из одного корня и его хотим удалить
+        if(this.Root.LeftChild == null && this.Root.RightChild == null && this.Root.NodeKey == key) {
+            this.Root = null;
+            return true;
+        }
+        BSTFind<T> bstFind = this.FindNodeByKey(key); // создаем объект промежуточного поиска
+        // если в дереве есть нужный ключ и он расположен в листе, т.е. потомков нет
+        // описываем случай, если удаляемый узел - левый потомок и является листом
+        if(bstFind.NodeHasKey == true && bstFind.Node.LeftChild == null
+                && bstFind.Node.RightChild == null && bstFind.ToLeft == true) {
+            // у родителя узла на удаление - обнуляется список потомков - обнулять надо только нужного потомка
+            bstFind.Node.Parent.LeftChild = null;
+            // снесли ссылку на родителя
+            bstFind.Node.Parent = null;
+            return true;
+        }
+        // описываем случай, если удаляемый узел - правый потомок и является листом
+        if(bstFind.NodeHasKey == true && bstFind.Node.LeftChild == null
+                && bstFind.Node.RightChild == null && bstFind.ToLeft == false) {
+            // у родителя узла на удаление - обнуляется список потомков - обнулять надо только нужного потомка
+            bstFind.Node.Parent.RightChild = null;
+            // снесли ссылку на родителя
+            bstFind.Node.Parent = null;
+            return true;
+        }
+        // Если такого листа нет
+        if(!bstFind.NodeHasKey) return false;
+
+        // Если у узла один потомок правый)
+        if(bstFind.NodeHasKey == true && bstFind.Node.RightChild != null && bstFind.Node.LeftChild == null) {
+            bstFind.Node.RightChild.Parent = bstFind.Node.Parent; // потомку узла на удаление прописали нового родителя
+            bstFind.Node.Parent.RightChild = bstFind.Node.RightChild; // преемника прописали в потомки родителя узла на удаление
+            bstFind.Node.Parent = null; // обнулили предка у узла на удаление
+            bstFind.Node.RightChild = null; // обнулили потомка у узла на удаление
+            return true;
+        }
+        // Если у узла один потомок левый)
+        if(bstFind.NodeHasKey == true && bstFind.Node.RightChild == null && bstFind.Node.LeftChild != null) {
+            bstFind.Node.LeftChild.Parent = bstFind.Node.Parent; // потомку узла на удаление прописали нового родителя
+            bstFind.Node.Parent.LeftChild = bstFind.Node.LeftChild; // преемника прописали в потомки родителя узла на удаление
+            bstFind.Node.Parent = null; // обнулили предка у узла на удаление
+            bstFind.Node.LeftChild = null; // обнулили потомка у узла на удаление
+            return true;
+        }
+
+
         return false; // если узел не найден
     }
 
