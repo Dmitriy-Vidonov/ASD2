@@ -179,8 +179,8 @@ class BST<T> { // Класс бинарного дерева поиска
             bstFind.Node.LeftChild = null; // обнулили потомка у узла на удаление
             return true;
         }
-        // Если у узла два потомка
-        if(bstFind.NodeHasKey == true && bstFind.Node.LeftChild != null && bstFind.Node.RightChild != null) {
+        // Если у узла два потомка и удаляемый узел не корень
+        if(bstFind.NodeHasKey == true && bstFind.Node.LeftChild != null && bstFind.Node.RightChild != null && bstFind.Node != Root) {
             // Сначала надо найти преемника - тот узел, который мы будем ставить на место удаляемого узла. Узел с минимальным ключом правой ветки.
             BSTNode<T> successor = this.FinMinMax(bstFind.Node.RightChild, false); // поиск ведем по правой ветке
             successor.Parent.LeftChild = null; // убрали преемника из списка детей его прежнего родителя
@@ -195,7 +195,20 @@ class BST<T> { // Класс бинарного дерева поиска
             bstFind.Node.RightChild = null; // отрезали удаляемый узел от правого потомка
             return true;
         }
-
+        // Если мы пытаемся удалить корень, у которого есть оба потомка
+        if(bstFind.NodeHasKey == true && bstFind.Node.LeftChild != null && bstFind.Node.RightChild != null && bstFind.Node == Root) {
+            // Аналогично предыдущему варианту ищем преемника
+            BSTNode<T> successor = this.FinMinMax(Root.RightChild, false); // поиск минимального элемента по правой ветке
+            successor.Parent.LeftChild = null; // убрали преемника от его прежнего родителя
+            successor.Parent = null; // установили преемнику null родителя
+            successor.RightChild = Root.RightChild; // прописали преемнику правого потомка
+            Root.RightChild.Parent = successor; // перепрописали родителя правому потомку корня
+            successor.LeftChild = Root.LeftChild; // прописали преемнику левого потомка
+            Root.LeftChild.Parent = successor; // перепрописали родителя левому потомку корня
+            Root = null; // обнулили корень
+            this.Root = successor; // установили преемника новым корнем дерева
+            return true;
+        }
         return false; // если узел не найден
     }
 

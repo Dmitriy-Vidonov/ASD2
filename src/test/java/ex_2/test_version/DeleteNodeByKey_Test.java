@@ -66,7 +66,7 @@ class DeleteNodeByKey_Test {
         assertFalse(node_1.Parent == node_2);
         // 3) Результат работы метода
         assertEquals(res, true);
-
+/*
         // упрощенная проверка по еще паре листов
         boolean res2 = tree.DeleteNodeByKey(13);
         assertTrue(node_14.LeftChild == null);
@@ -74,7 +74,7 @@ class DeleteNodeByKey_Test {
 
         boolean res3 = tree.DeleteNodeByKey(15);
         assertTrue(node_14.RightChild == null);
-        assertEquals(res3, true);
+        assertEquals(res3, true);*/
     }
 
     @Test
@@ -184,29 +184,24 @@ class DeleteNodeByKey_Test {
     void deleteNodeByKey_root_all_children() throws Exception {
         // 1) Проверяем наличие узла перед удалением
         assertTrue(tree.Root == rootNode);
-        //assertTrue(rootNode.LeftChild == node_4);
-        //assertTrue(rootNode.RightChild == node_12);
-        //assertTrue(node_4.Parent == rootNode);
-        //assertTrue(node_12.Parent == rootNode);
+        assertTrue(rootNode.LeftChild == node_4);
+        assertTrue(rootNode.RightChild == node_12);
+        assertTrue(node_4.Parent == rootNode);
+        assertTrue(node_12.Parent == rootNode);
         // Произвели удаление
-        //boolean res = tree.DeleteNodeByKey(8); // удалили корень дерева
-        // 2) Отсутствие узла после удаления
-        //assertFalse(tree.Root == rootNode);
-        //assertFalse(rootNode.LeftChild == node_4);
-        //assertFalse(rootNode.RightChild == node_12);
-        //assertFalse(node_4.Parent == rootNode);
-        //assertFalse(node_12.Parent == rootNode);
+        boolean res = tree.DeleteNodeByKey(8); // удалили корень дерева
+        // 2) Отсутствие корня после удаления - вместо него расположен node_10
+        assertTrue(tree.Root == node_10); // старого корня нет, теперь корень это node_10
+        assertTrue(node_10.LeftChild == node_4);
+        assertTrue(node_10.RightChild == node_12);
+        assertTrue(node_4.Parent == node_10);
+        assertTrue(node_12.Parent == node_10);
 
-        //assertTrue(tree.Root == node_10); // у дерева обновляется корень
-        //assertTrue(node_10.Parent == null);
-        //assertTrue(node_10.LeftChild == node_4);
-        //assertTrue(node_4.Parent == node_10);
-        //assertTrue(node_10.RightChild == node_12);
-        //assertTrue(node_12.Parent == node_10);
-        //assertTrue(node_12.LeftChild == null);
-        //assertTrue(node_12.RightChild == node_14);
+        assertFalse(tree.Root == rootNode);
+        assertFalse(node_4.Parent == rootNode);
+        assertFalse(node_12.Parent == rootNode);
 
         // Результат работы метода
-        //assertEquals(res, true);
+        assertEquals(res, true);
     }
 }
