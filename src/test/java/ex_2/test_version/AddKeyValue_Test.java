@@ -13,9 +13,9 @@ class AddKeyValue_Test {
     BST<Integer> tree = new BST<>(rootNode); // задаем непустое дерево
     BST<Integer> emptyTree = new BST<>(null); // задаем пустое дерево
 
-    BSTNode<Integer> node_9 = new BSTNode<>(9, 9, rootNode);
-    BSTNode<Integer> node_8 = new BSTNode<>(8, 8, node_9);
-    BSTNode<Integer> node_12 = new BSTNode<>(12, 12, node_9);
+    BSTNode<Integer> node_8 = new BSTNode<>(8, 8, rootNode);
+    BSTNode<Integer> node_7 = new BSTNode<>(7, 7, node_8);
+    BSTNode<Integer> node_9 = new BSTNode<>(9, 9, node_8);
     BSTNode<Integer> node_20 = new BSTNode<>(20, 20, rootNode);
     BSTNode<Integer> node_15 = new BSTNode<>(15, 15, null);
     BSTNode<Integer> node_30 = new BSTNode<>(30, 30, null);
@@ -26,16 +26,20 @@ class AddKeyValue_Test {
         // предустановки перед каждым тестом - связываем узлы между собой до метода с добавлением
     void setup() throws Exception {
         // задаем детей - устанавливаем связи между узлами дерева
-        rootNode.LeftChild = node_9;
-        node_9.LeftChild = node_8;
-        node_9.RightChild = node_12;
+        rootNode.LeftChild = node_8;
+        node_8.Parent = rootNode;
         rootNode.RightChild = node_20;
+        node_20.Parent = rootNode;
+        node_8.LeftChild = node_7;
+        node_7.Parent = node_8;
+        node_8.RightChild = node_9;
+        node_9.Parent = node_8;
     }
     @Test
     @DisplayName("1) Дерево без корня, добавляем новый ключ")
     void addKeyValue_empty_tree() throws Exception {
         emptyTree.AddKeyValue(55, 55);
-        assertTrue(emptyTree.Root == node_55); // проверили, что узел является узлом
+        assertTrue(emptyTree.Root.NodeKey == node_55.NodeKey); // проверили, что узел является узлом
         assertTrue(emptyTree.Root.Parent == null); // проверили родителя узла
     }
 
@@ -48,8 +52,8 @@ class AddKeyValue_Test {
 
        tree.AddKeyValue(15, 15);
        // проверить, что добавленный узел - левый потомок у 20 и родитель у добавленного верный
-       assertTrue(node_20.LeftChild == node_15);
-       assertTrue(node_15.Parent == node_20);
+       assertTrue(node_20.LeftChild.NodeKey == node_15.NodeKey);
+       assertTrue(node_20.LeftChild.Parent == node_20);
     }
 
     @Test
@@ -69,19 +73,19 @@ class AddKeyValue_Test {
     @DisplayName("4) Добавить ключ, который уже есть в дереве")
     void addKeyValue_key_already_exist() throws Exception {
         // Проверить, что такой ключ уже есть
-        assertTrue(node_9.RightChild.NodeKey == 12);
+        assertTrue(node_8.RightChild.NodeKey == 12);
 
         tree.AddKeyValue(12, 12);
         // Проверить, что все узлы остались теми же, с теми же связями
         assertTrue(tree.Root == rootNode);
-        assertTrue(rootNode.LeftChild == node_9);
+        assertTrue(rootNode.LeftChild == node_8);
         assertTrue(rootNode.RightChild == node_20);
-        assertTrue(node_9.LeftChild == node_8);
-        assertTrue(node_9.RightChild == node_12);
-        assertTrue(node_8.LeftChild == null);
-        assertTrue(node_8.RightChild == null);
-        assertTrue(node_12.LeftChild == null);
-        assertTrue(node_12.RightChild == null);
+        assertTrue(node_8.LeftChild == node_7);
+        assertTrue(node_8.RightChild == node_9);
+        assertTrue(node_7.LeftChild == null);
+        assertTrue(node_7.RightChild == null);
+        assertTrue(node_9.LeftChild == null);
+        assertTrue(node_9.RightChild == null);
         assertTrue(node_20.LeftChild == null);
         assertTrue(node_20.RightChild == null);
     }

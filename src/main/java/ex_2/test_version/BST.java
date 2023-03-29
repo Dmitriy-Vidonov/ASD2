@@ -84,8 +84,28 @@ class BST<T> { // Класс бинарного дерева поиска
     }
 
     public boolean AddKeyValue(int key, T val) { // добавление нового узла с заданным ключом и значением
-        
-        return false; // если такой ключ уже есть
+        BSTNode<T> nodeToAdd = new BSTNode<>(key, val, null);
+
+        if(this.Root == null) { // если в дереве нет корня
+            this.Root = nodeToAdd;
+            return true;
+        }
+        // Создаем объект промежуточного поиска из FindNodeByKey()
+        BSTFind<T> bstFind = this.FindNodeByKey(key);
+
+        if(bstFind.NodeHasKey) // если мы нашли в дереве такой ключ
+            return false; // вернем false и ничего делать не будем
+        if(bstFind.ToLeft == true && bstFind.NodeHasKey == false) { // если добавить ключ надо как левый потомок
+            bstFind.Node.LeftChild = nodeToAdd; // добавляем новый узел к узлу из bstFind
+            nodeToAdd.Parent = bstFind.Node;
+            return true;
+        }
+        if(bstFind.ToLeft == false && bstFind.NodeHasKey == false) { // если ToLeft != true
+            bstFind.Node.RightChild = nodeToAdd;
+            nodeToAdd.Parent = bstFind.Node;
+            return true;
+        }
+        return false;
     }
 
     public BSTNode<T> FinMinMax(BSTNode<T> FromNode, boolean FindMax) { // поиск узла с макс. или мин. ключом
