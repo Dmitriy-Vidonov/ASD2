@@ -1,5 +1,7 @@
 package ex_2.test_version;
 
+import ex_1.final_version.SimpleTreeNode;
+
 class BSTNode<T> { // класс узла бинарного дерева поиска
     public int NodeKey; // ключ узла
     public T NodeValue; // значение в узле
@@ -135,6 +137,19 @@ class BST<T> { // Класс бинарного дерева поиска
     }
 
     public int Count() { // подсчет количества узлов в дереве
-        return 0; // если дерево без узлов
+        if(this.Root == null) return 0; // если в дереве нет корней
+        if(this.Root.LeftChild == null && this.Root.RightChild == null) return 1; // если дерево состоит из одного корня
+        return CountHelper(this.Root);
+
+    }
+    private int CountHelper(BSTNode<T> node) {
+        if(node == null) return 0;
+        int count = 1;
+
+        if(node.LeftChild != null || node.RightChild != null) {
+            count += CountHelper(node.LeftChild);
+            count += CountHelper(node.RightChild);
+        }
+        return count;
     }
 }

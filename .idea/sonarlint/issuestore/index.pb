@@ -1,8 +1,6 @@
 
 7
 pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
-d
-4src/main/java/ex_1/final_version/SimpleTreeNode.java,f\2\f25a955c491d351040815e3c99f681d0fe4184b0
 c
 3src/main/java/recursion_learning/testRecursion.java,f\c\fcc2bd904dbe65d99eaf7ecb34e585cd604e2f5c
 c
