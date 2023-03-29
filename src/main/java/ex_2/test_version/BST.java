@@ -179,7 +179,22 @@ class BST<T> { // Класс бинарного дерева поиска
             bstFind.Node.LeftChild = null; // обнулили потомка у узла на удаление
             return true;
         }
-
+        // Если у узла два потомка
+        if(bstFind.NodeHasKey == true && bstFind.Node.LeftChild != null && bstFind.Node.RightChild != null) {
+            // Сначала надо найти преемника - тот узел, который мы будем ставить на место удаляемого узла. Узел с минимальным ключом правой ветки.
+            BSTNode<T> successor = this.FinMinMax(bstFind.Node.RightChild, false); // поиск ведем по правой ветке
+            successor.Parent.LeftChild = null; // убрали преемника из списка детей его прежнего родителя
+            successor.Parent = bstFind.Node.Parent; // прописали нового родителя преемнику
+            bstFind.Node.Parent.RightChild = successor; // прописали преемника в качестве потомка бывшему родителю удаляемого узла
+            successor.RightChild = bstFind.Node.RightChild; // прописали преемнику потомка от удаляемого узла
+            bstFind.Node.RightChild.Parent = successor; // бывшему потомку удаляемого узла прописали нового родителя - преемника
+            successor.LeftChild = bstFind.Node.LeftChild; // передали преемнику левого потомка удаляемого узла
+            bstFind.Node.LeftChild.Parent = successor; // установили преемника в качестве родителя у бывшего левого потомка удаляемого узла
+            bstFind.Node.Parent = null; // отрезали удаляемый узел от предка
+            bstFind.Node.LeftChild = null; // отрезали удаляемый узел от левого потомка
+            bstFind.Node.RightChild = null; // отрезали удаляемый узел от правого потомка
+            return true;
+        }
 
         return false; // если узел не найден
     }
