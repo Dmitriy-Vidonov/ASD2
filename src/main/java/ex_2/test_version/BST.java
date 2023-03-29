@@ -1,6 +1,5 @@
 package ex_2.test_version;
-
-import ex_1.final_version.SimpleTreeNode;
+import java.util.*;
 
 class BSTNode<T> { // класс узла бинарного дерева поиска
     public int NodeKey; // ключ узла
@@ -138,6 +137,18 @@ class BST<T> { // Класс бинарного дерева поиска
         // если дерево из одного корня и его хотим удалить
         if(this.Root.LeftChild == null && this.Root.RightChild == null && this.Root.NodeKey == key) {
             this.Root = null;
+            return true;
+        }
+        // Если мы пытаемся удалить корень, у которого только левый потомок
+        if(this.Root.NodeKey == key && this.Root.LeftChild != null && this.Root.RightChild == null) {
+            Root = Root.LeftChild;
+            Root.Parent = null;
+            return true;
+        }
+        // Если мы пытаемся удалить корень, у которого только правый потомок
+        else if(this.Root.NodeKey == key && this.Root.LeftChild == null && this.Root.RightChild != null) {
+            Root = Root.RightChild;
+            Root.Parent = null;
             return true;
         }
         BSTFind<T> bstFind = this.FindNodeByKey(key); // создаем объект промежуточного поиска

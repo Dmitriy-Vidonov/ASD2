@@ -23,6 +23,19 @@ class DeleteNodeByKey_Test {
     BSTNode<Integer> node_14 = new BSTNode<>(14, 14, null);
     BSTNode<Integer> node_15 = new BSTNode<>(15, 15, null);
     BSTNode<Integer> node_18 = new BSTNode<>(18, 18, null);
+    // Собираем дерево в виде левой ветки
+    BSTNode<Integer> rootLeft = new BSTNode<>(180, 180, null);
+    BST<Integer> treeLeft = new BST<>(rootLeft);
+    BSTNode<Integer> nodeLeft_140 = new BSTNode<>(140, 140, null);
+    BSTNode<Integer> nodeLeft_120 = new BSTNode<>(120, 120, null);
+    BSTNode<Integer> nodeLeft_110 = new BSTNode<>(110, 110, null);
+
+    // Собираем дерево в виде правой ветки
+    BSTNode<Integer> rootRight = new BSTNode<>(200, 200, null);
+    BST<Integer> treeRight = new BST<>(rootRight);
+    BSTNode<Integer> nodeRight_300 = new BSTNode<>(300, 300, null);
+    BSTNode<Integer> nodeRight_400 = new BSTNode<>(400, 400, null);
+    BSTNode<Integer> nodeRight_500 = new BSTNode<>(500, 500, null);
 
     // Установка начальных значений - по сути сборка нового дерева
     @BeforeEach
@@ -66,15 +79,15 @@ class DeleteNodeByKey_Test {
         assertFalse(node_1.Parent == node_2);
         // 3) Результат работы метода
         assertEquals(res, true);
-/*
+
         // упрощенная проверка по еще паре листов
         boolean res2 = tree.DeleteNodeByKey(13);
         assertTrue(node_14.LeftChild == null);
         assertEquals(res2, true);
 
-        boolean res3 = tree.DeleteNodeByKey(15);
-        assertTrue(node_14.RightChild == null);
-        assertEquals(res3, true);*/
+        boolean res3 = tree.DeleteNodeByKey(18);
+        assertTrue(node_15.RightChild == null);
+        assertEquals(res3, true);
     }
 
     @Test
@@ -203,5 +216,36 @@ class DeleteNodeByKey_Test {
 
         // Результат работы метода
         assertEquals(res, true);
+    }
+
+    @Test
+    @DisplayName("8) Удаление корня, у которого только левые потомки")
+    void deleteNodeByKey_root_only_left_branch() throws Exception {
+        // Собрали дерево в виде только левой ветки
+        rootLeft.LeftChild = nodeLeft_140;
+        nodeLeft_140.Parent = rootLeft;
+        nodeLeft_140.LeftChild = nodeLeft_120;
+        nodeLeft_120.Parent = nodeLeft_140;
+        nodeLeft_120.LeftChild = nodeLeft_110;
+        nodeLeft_110.Parent = nodeLeft_120;
+
+        boolean res = treeLeft.DeleteNodeByKey(180);
+
+        assertTrue(treeLeft.Root == nodeLeft_140);
+        assertTrue(nodeLeft_140.Parent == null);
+        assertTrue(nodeLeft_140.LeftChild == nodeLeft_120);
+        assertTrue(nodeLeft_120.Parent == treeLeft.Root);
+    }
+
+    @Test
+    @DisplayName("9) Удаление корня, у которого только правые потомки")
+    void deleteNodeByKey_root_only_right_branch() throws Exception {
+        // Собрали дерево в виде только правой ветки
+        rootRight.RightChild = nodeRight_300;
+        nodeRight_300.Parent = rootRight;
+        nodeRight_300.RightChild = nodeRight_400;
+        nodeRight_400.Parent = nodeRight_300;
+        nodeRight_400.RightChild = nodeRight_500;
+        nodeRight_500.Parent = nodeRight_400;
     }
 }
