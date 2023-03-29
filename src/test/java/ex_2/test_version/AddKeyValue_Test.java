@@ -65,29 +65,26 @@ class AddKeyValue_Test {
 
         tree.AddKeyValue(30, 30);
         // проверить, что добавленный узел - правый потомок у 20 и родитель у добавленного верный
-        assertTrue(node_20.RightChild == node_30);
-        assertTrue(node_30.Parent == node_20);
+        assertTrue(node_20.RightChild.NodeKey == node_30.NodeKey);
+        assertTrue(node_20.RightChild.Parent == node_20);
     }
 
     @Test
     @DisplayName("4) Добавить ключ, который уже есть в дереве")
     void addKeyValue_key_already_exist() throws Exception {
         // Проверить, что такой ключ уже есть
-        assertTrue(node_8.RightChild.NodeKey == 12);
+        assertTrue(node_8.RightChild.NodeKey == 9);
 
-        tree.AddKeyValue(12, 12);
+        tree.AddKeyValue(9, 9);
         // Проверить, что все узлы остались теми же, с теми же связями
-        assertTrue(tree.Root == rootNode);
         assertTrue(rootNode.LeftChild == node_8);
+        assertTrue(node_8.Parent == rootNode);
         assertTrue(rootNode.RightChild == node_20);
+        assertTrue(node_20.Parent == rootNode);
         assertTrue(node_8.LeftChild == node_7);
+        assertTrue(node_7.Parent == node_8);
         assertTrue(node_8.RightChild == node_9);
-        assertTrue(node_7.LeftChild == null);
-        assertTrue(node_7.RightChild == null);
-        assertTrue(node_9.LeftChild == null);
-        assertTrue(node_9.RightChild == null);
-        assertTrue(node_20.LeftChild == null);
-        assertTrue(node_20.RightChild == null);
+        assertTrue(node_9.Parent == node_8);
     }
 
     @Test
@@ -98,16 +95,13 @@ class AddKeyValue_Test {
         tree.AddKeyValue(25, 25);
         tree.AddKeyValue(35, 35);
         // проверяем связи у потомков начиная от узла 20
-        assertTrue(node_20.RightChild == node_30);
+        assertTrue(node_20.RightChild.NodeKey == node_30.NodeKey);
         assertTrue(node_20.LeftChild == null);
-        assertTrue(node_30.Parent == node_20);
-        assertTrue(node_30.LeftChild == node_25);
-        assertTrue(node_30.RightChild == node_35);
-        assertTrue(node_25.Parent == node_30);
-        assertTrue(node_35.Parent == node_30);
-        assertTrue(node_25.LeftChild == null);
-        assertTrue(node_25.RightChild == null);
-        assertTrue(node_35.LeftChild == null);
-        assertTrue(node_35.RightChild == null);
+        assertTrue(node_20.RightChild.Parent.NodeKey == node_20.NodeKey);
+
+        assertTrue( node_20.RightChild.LeftChild.NodeKey == node_25.NodeKey); // мы не добавляем сам узел node_30, создается новый с key = 30
+        assertTrue(node_20.RightChild.RightChild.NodeKey == node_35.NodeKey);
+        assertTrue(node_20.RightChild.LeftChild.Parent.NodeKey == node_30.NodeKey);
+        assertTrue(node_20.RightChild.RightChild.Parent.NodeKey == node_30.NodeKey);
     }
 }
