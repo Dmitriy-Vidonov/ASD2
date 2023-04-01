@@ -39,6 +39,27 @@ class BST<T> { // Класс бинарного дерева поиска
         Root = node; // здесь мы просто задаем корень дерева
     }
 
+    // Обход дерева в ширину
+    public ArrayList<BSTNode> WideAllNodes() {
+        ArrayList<BSTNode> wideList = new ArrayList<>();
+        if(Root == null) return null;
+
+        Queue<BSTNode> queue = new LinkedList<BSTNode>(); // создали пустую очередь
+        queue.add(Root); // добавили корень в очередь
+        while (!queue.isEmpty()) { // пока очередь не пуста
+            BSTNode<T> node = queue.poll(); // в node поместили первый элемент из очереди
+            wideList.add(node);
+
+            if(node.LeftChild != null) { // если у узла есть левый потомок
+                queue.add(node.LeftChild); // добавляем потомка в очередь
+            }
+            if(node.RightChild != null) { // если у узла есть правый потомок
+                queue.add(node.RightChild); // добавляем потомка в очередь
+            }
+        }
+        return wideList;
+    }
+
     public BSTFind<T> FindNodeByKey(int key) { // метод поиска по ключу. На вход - ключ. На выходе - объект класса BSTFind
         // частный случай с пустым деревом
         if (Root == null) return null;
