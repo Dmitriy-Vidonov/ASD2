@@ -35,6 +35,63 @@ class BST<T>
         Root = node;
     }
 
+    public ArrayList<BSTNode> WideAllNodes() {
+        ArrayList<BSTNode> wideList = new ArrayList<>();
+        if(Root == null) return null;
+
+        Queue<BSTNode> queue = new LinkedList<BSTNode>();
+        queue.add(Root);
+
+        while (!queue.isEmpty()) {
+            BSTNode<T> node = queue.poll();
+            wideList.add(node);
+
+            if(node.LeftChild != null) {
+                queue.add(node.LeftChild);
+            }
+            if(node.RightChild != null) {
+                queue.add(node.RightChild);
+            }
+        }
+        return wideList;
+    }
+
+    public ArrayList<BSTNode> DeepAllNodes(int status) {
+        ArrayList<BSTNode> deepList = new ArrayList<>();
+        if(Root == null) return null;
+        if(status == 0) {
+            DeepAllNodesHelperInOrder(Root, deepList);
+        }
+        if(status == 1) {
+            DeepAllNodesHelperPostOrder(Root, deepList);
+        }
+        if(status == 2) {
+            DeepAllNodesHelperPreOrder(Root, deepList);
+        }
+        return deepList;
+    }
+
+    private void DeepAllNodesHelperInOrder(BSTNode node, ArrayList<BSTNode> deepList) {
+        if(node == null) return;
+        DeepAllNodesHelperInOrder(node.LeftChild, deepList);
+        deepList.add(node);
+        DeepAllNodesHelperInOrder(node.RightChild, deepList);
+    }
+
+    private void DeepAllNodesHelperPostOrder(BSTNode node, ArrayList<BSTNode> deepList) {
+        if(node == null) return;
+        DeepAllNodesHelperPostOrder(node.LeftChild, deepList);
+        DeepAllNodesHelperPostOrder(node.RightChild, deepList);
+        deepList.add(node);
+    }
+
+    private void DeepAllNodesHelperPreOrder(BSTNode node, ArrayList<BSTNode> deepList) {
+        if(node == null) return;
+        deepList.add(node);
+        DeepAllNodesHelperPreOrder(node.LeftChild, deepList);
+        DeepAllNodesHelperPreOrder(node.RightChild, deepList);
+    }
+
     public BSTFind<T> FindNodeByKey(int key)
     {
         if (Root == null) return null;
@@ -90,12 +147,12 @@ class BST<T>
 
         if(bstFind.NodeHasKey)
             return false;
-        if(bstFind.ToLeft == true && bstFind.NodeHasKey == false) {
+        if(bstFind.ToLeft && !bstFind.NodeHasKey) {
             bstFind.Node.LeftChild = nodeToAdd;
             nodeToAdd.Parent = bstFind.Node;
             return true;
         }
-        if(bstFind.ToLeft == false && bstFind.NodeHasKey == false) {
+        if(!bstFind.ToLeft && !bstFind.NodeHasKey) {
             bstFind.Node.RightChild = nodeToAdd;
             nodeToAdd.Parent = bstFind.Node;
             return true;
@@ -108,7 +165,7 @@ class BST<T>
         if(Root == null) return null;
         if(Root.LeftChild == null && Root.RightChild == null) return Root;
 
-        if(FindMax == false)
+        if(!FindMax)
             return FinMinHelper(FromNode);
         return FinMaxHelper(FromNode);
     }
@@ -145,14 +202,14 @@ class BST<T>
         }
         BSTFind<T> bstFind = this.FindNodeByKey(key);
 
-        if(bstFind.NodeHasKey == true && bstFind.Node.LeftChild == null
+        if(bstFind.NodeHasKey && bstFind.Node.LeftChild == null
                 && bstFind.Node.RightChild == null && bstFind.ToLeft == true) {
             bstFind.Node.Parent.LeftChild = null;
             bstFind.Node.Parent = null;
             return true;
         }
 
-        if(bstFind.NodeHasKey == true && bstFind.Node.LeftChild == null
+        if(bstFind.NodeHasKey && bstFind.Node.LeftChild == null
                 && bstFind.Node.RightChild == null && bstFind.ToLeft == false) {
             bstFind.Node.Parent.RightChild = null;
             bstFind.Node.Parent = null;
@@ -160,7 +217,7 @@ class BST<T>
         }
         if(!bstFind.NodeHasKey) return false;
 
-        if(bstFind.NodeHasKey == true && bstFind.Node.RightChild != null && bstFind.Node.LeftChild == null) {
+        if(bstFind.NodeHasKey && bstFind.Node.RightChild != null && bstFind.Node.LeftChild == null) {
             bstFind.Node.RightChild.Parent = bstFind.Node.Parent;
             bstFind.Node.Parent.RightChild = bstFind.Node.RightChild;
             bstFind.Node.Parent = null;
@@ -168,7 +225,7 @@ class BST<T>
             return true;
         }
 
-        if(bstFind.NodeHasKey == true && bstFind.Node.RightChild == null && bstFind.Node.LeftChild != null) {
+        if(bstFind.NodeHasKey && bstFind.Node.RightChild == null && bstFind.Node.LeftChild != null) {
             bstFind.Node.LeftChild.Parent = bstFind.Node.Parent;
             bstFind.Node.Parent.LeftChild = bstFind.Node.LeftChild;
             bstFind.Node.Parent = null;
@@ -176,7 +233,7 @@ class BST<T>
             return true;
         }
 
-        if(bstFind.NodeHasKey == true && bstFind.Node.LeftChild != null
+        if(bstFind.NodeHasKey && bstFind.Node.LeftChild != null
                 && bstFind.Node.RightChild != null && bstFind.Node != Root) {
             BSTNode<T> successor = this.FinMinMax(bstFind.Node.RightChild, false);
             successor.Parent.LeftChild = null;
@@ -192,7 +249,7 @@ class BST<T>
             return true;
         }
 
-        if(bstFind.NodeHasKey == true && bstFind.Node.LeftChild != null
+        if(bstFind.NodeHasKey && bstFind.Node.LeftChild != null
                 && bstFind.Node.RightChild != null && bstFind.Node == Root) {
             BSTNode<T> successor = this.FinMinMax(Root.RightChild, false);
             successor.Parent.LeftChild = null;
