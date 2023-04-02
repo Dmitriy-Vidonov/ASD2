@@ -45,7 +45,8 @@ class BST<T> { // Класс бинарного дерева поиска
         if(Root == null) return null;
 
         Queue<BSTNode> queue = new LinkedList<BSTNode>(); // создали пустую очередь
-        queue.add(Root); // добавили корень в очередь
+        queue.add(Root); // добавили корень в очередь, чтобы начать цикл while
+
         while (!queue.isEmpty()) { // пока очередь не пуста
             BSTNode<T> node = queue.poll(); // в node поместили первый элемент из очереди
             wideList.add(node);
@@ -58,6 +59,44 @@ class BST<T> { // Класс бинарного дерева поиска
             }
         }
         return wideList;
+    }
+
+    // Обход дерева в глубину
+    public ArrayList<BSTNode> DeepAllNodes(int status) { // 0 (in-order), 1 (post-order), 2 (pre-order)
+        ArrayList<BSTNode> deepList = new ArrayList<>();
+        if(Root == null) return null;
+        if(status == 0) { // вариант с обходом in-order
+            DeepAllNodesHelperInOrder(Root, deepList);
+        }
+        if(status == 1) { // вариант с обходом post-order
+            DeepAllNodesHelperPostOrder(Root, deepList);
+        }
+        if(status == 2) { // вариант с обходом pre-order
+            DeepAllNodesHelperPreOrder(Root, deepList);
+        }
+        return deepList;
+    }
+
+    private void DeepAllNodesHelperInOrder(BSTNode node, ArrayList<BSTNode> deepList) {
+        if(node == null) return; // это по сути случай, когда мы натыкаемся на узел следующий за последним левым листом
+        DeepAllNodesHelperInOrder(node.LeftChild, deepList); // по сути идем по левой ветке пока не упремся в null
+        // если будет null - у нас завершится node.LeftChild и мы пойдем дальше - добавим родителя
+        deepList.add(node); // вот здесь добавим родителя
+        DeepAllNodesHelperInOrder(node.RightChild, deepList); // и пойдем по правой ветке, где будет то же самое
+    }
+
+    private void DeepAllNodesHelperPostOrder(BSTNode node, ArrayList<BSTNode> deepList) {
+        if(node == null) return; // точка остановки обеих рекурсий
+        DeepAllNodesHelperPostOrder(node.LeftChild, deepList); // идем по левой ветке, до null узла
+        DeepAllNodesHelperPostOrder(node.RightChild, deepList); // когда null встретили - идем по правой
+        deepList.add(node); // встретили null по правой - добавили родителя
+    }
+
+    private void DeepAllNodesHelperPreOrder(BSTNode node, ArrayList<BSTNode> deepList) {
+        if(node == null) return; // точка остановки обеих рекурсий
+        deepList.add(node); // добавили основной узел
+        DeepAllNodesHelperPreOrder(node.LeftChild, deepList); // идем по левой ветке, до null узла
+        DeepAllNodesHelperPreOrder(node.RightChild, deepList); // когда null встретили - идем по правой
     }
 
     public BSTFind<T> FindNodeByKey(int key) { // метод поиска по ключу. На вход - ключ. На выходе - объект класса BSTFind
