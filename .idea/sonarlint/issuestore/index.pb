@@ -19,3 +19,5 @@ f
 6src/test/java/ex_2/test_version/DeepAllNodes_Test.java,7\1\71355978b382014cdbef1e188e72eab3433b99a7
 X
 (src/main/java/ex_2/test_version/BST.java,e\b\eb74f49ec96407d8720a75991d0a2a74eefe19c3
+e
+5src/test/java/ex_2/test_version/AddKeyValue_Test.java,1\9\19fa949f59b766a027c564f5fa4ab38d6e68da1f
