@@ -59,11 +59,10 @@ class Various_Methods_Test {
         assertEquals(1, tree.FindKeyIndex(25));
         assertEquals(2, tree.FindKeyIndex(75));
         assertEquals(-5, (int)tree.FindKeyIndex(60)); // Найден незаполненный слот
-       // assertNull(tree.FindKeyIndex(200)); // Ключ не найден
-        System.out.println(tree.FindKeyIndex(200));
+        assertNull(tree.FindKeyIndex(200)); // Ключ не найден
 
         // Проверка пустого дерева
-       // aBST emptyTree = new aBST(depth);
-       // assertNull(emptyTree.FindKeyIndex(50)); // Ключ не найден
+        aBST emptyTree = new aBST(depth);
+        assertNull(emptyTree.FindKeyIndex(50)); // Ключ не найден
     }
 }

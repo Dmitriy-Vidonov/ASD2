@@ -29,45 +29,32 @@ class aBST {
         System.out.println();
     }
 
-    /*
-    //public Integer FindKeyIndex(int key) {
-    public ArrayList<Integer> FindKey(){ // версия для простого обхода дерева
-        // 1) Попробуем просто обойти дерево-массив и сохранить все узлы в список
-        ArrayList<Integer> deepList = new ArrayList<>();
-        int index = 0;
-        if(Tree.length == 0) return null; // если дерево пустое
-        FindKeyHelper(index, deepList);
-        // ищем в массиве индекс ключа
-        return deepList;
-    }
-    // Вспомогательный метод для рекурсивного обхода для FindKey
-    private void FindKeyHelper(int index, ArrayList deepList) {
-        if (index > Tree.length-1) return;
-        deepList.add(Tree[index]);
-        FindKeyHelper(index * 2 + 1, deepList);
-        FindKeyHelper(index * 2 + 2, deepList);
-    }
-    */
     public Integer FindKeyIndex(int key)
     {
         int index = 0;
-        if(Tree.length == 0) return null; // если дерево пустое
         return FindKeyHelper(index, key);
     }
     private Integer FindKeyHelper(int index, int key) {
         if (index > Tree.length-1) return null;
-        if(Tree[index] != null && Tree[index] == key) return index;
-        if (Tree[index] == null && Tree[(index - 1) / 2] != null && key < Tree[(index - 1) / 2]) return index * -1;
-        else if (Tree[index] == null && Tree[(index - 1) / 2] != null && key > Tree[(index - 1) / 2]) return index * -1;
 
+        if (Tree[index] != null && Tree[index] == key) return index;
+
+        if (Tree[index] == null) {
+            if (index == 0) return null;
+            if ((index % 2 == 1 && key < Tree[(index - 1) / 2]) || (index % 2 == 0 && key > Tree[(index - 2) / 2])) {
+                return index * -1;
+            } else {
+                return null;
+            }
+        }
         Integer left = FindKeyHelper(index * 2 + 1, key);
         if (left != null) return left;
 
         Integer right = FindKeyHelper(index * 2 + 2, key);
         if (right != null) return right;
+
         return null;
     }
-
 
     public int AddKey(int key) {
         // Частный случай если массив пуст
