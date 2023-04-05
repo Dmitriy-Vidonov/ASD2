@@ -45,14 +45,14 @@ class aBST {
         int index = 0;
         while (index < Tree.length) {
             if(Tree[index] == null) {
-                Tree[index] = key;
+                Tree[index] = key; // вот здесь обновляем index
                 return index;
             }
             else if(key < Tree[index]) { // для левого потомка
-                index = 2 * index + 1;
+                index = 2 * index + 1; // здесь обновляем index
             }
             else if(key > Tree[index]) { // для правого потомка
-                index = 2 * index + 2;
+                index = 2 * index + 2; // здесь обновляем index
             }
             else return index;
         }
