@@ -78,4 +78,90 @@ class Various_Methods_Test {
           aBST emptyTree = new aBST(depth);
           assertNull(emptyTree.FindKeyIndex(50)); // Ключ не найден
     }
+
+    // Дополнительный набор тестов
+    @Test
+    @DisplayName("4) Пустое, незаполненное изначально дерево")
+    void TestEmptyTree() throws Exception {
+        int depth = 2; // 7 элементов
+        aBST emptyTree = new aBST(depth);
+        // Проверка размера дерева
+        assertEquals(7, emptyTree.Tree.length);
+        // Поиск несуществующего элемента
+        // ******ПРОВЕРКА НЕ ПРОЙДЕНА!
+        assertNull(emptyTree.FindKeyIndex(100)); // почему null? должен быть 0
+        // Добавили элементы
+        assertEquals(emptyTree.AddKey(100), 0);
+        assertEquals(emptyTree.AddKey(50), 1);
+        assertEquals(emptyTree.AddKey(125), 2);
+        emptyTree.ShowArray();
+        // Совершили поиск элементов
+        assertEquals(emptyTree.FindKeyIndex(100), 0);
+        assertEquals(emptyTree.FindKeyIndex(50), 1);
+        //assertEquals(emptyTree.FindKeyIndex(125), 2);
+        // ******ПРОВЕРКА НЕ ПРОЙДЕНА!
+        System.out.println(emptyTree.FindKeyIndex(125)); // вот и косяк! откуда -4?
+
+        //Ищем несуществующий элемент
+        //assertNull(emptyTree.FindKeyIndex(300));
+        // ******ПРОВЕРКА НЕ ПРОЙДЕНА!
+        System.out.println(emptyTree.FindKeyIndex(300)); // дает -4 вместо -6
+    }
+
+    @Test
+    @DisplayName("5) Дерево заполнено полностью, без null-ов")
+    void FullTree() throws Exception {
+        int depth = 2;
+        aBST fullTree = new aBST(depth);
+        // Заполняем дерево элементами
+        assertEquals(fullTree.AddKey(100), 0);
+        assertEquals(fullTree.AddKey(50), 1);
+        assertEquals(fullTree.AddKey(125), 2);
+        assertEquals(fullTree.AddKey(25), 3);
+        assertEquals(fullTree.AddKey(75), 4);
+        assertEquals(fullTree.AddKey(115), 5);
+        assertEquals(fullTree.AddKey(200), 6);
+
+        // Пытаемся добавить узел в заполненное дерево
+        assertEquals(fullTree.AddKey(250), -1);
+        // Найти существующий узел
+        assertEquals(fullTree.FindKeyIndex(125), 2);
+        // Найти несуществующий узел
+        assertNull(fullTree.FindKeyIndex(300));
+    }
+
+    @Test
+    @DisplayName("6) Дерево заполнено с null-ами")
+    void TreeWithNulls() throws Exception {
+        int depth = 2;
+        aBST fullTreeNulls = new aBST(depth);
+        aBST fullTreeNulls2 = new aBST(depth);
+        // Заполняем дерево элементами, один null
+        assertEquals(fullTreeNulls.AddKey(100), 0);
+        assertEquals(fullTreeNulls.AddKey(50), 1);
+        assertEquals(fullTreeNulls.AddKey(125), 2);
+        assertEquals(fullTreeNulls.AddKey(25), 3);
+        assertEquals(fullTreeNulls.AddKey(115), 5);
+        assertEquals(fullTreeNulls.AddKey(200), 6);
+
+        assertEquals(fullTreeNulls2.AddKey(100), 0);
+        assertEquals(fullTreeNulls2.AddKey(50), 1);
+        assertEquals(fullTreeNulls2.AddKey(125), 2);
+        assertEquals(fullTreeNulls2.AddKey(25), 3);
+        assertEquals(fullTreeNulls2.AddKey(115), 5);
+        assertEquals(fullTreeNulls2.AddKey(200), 6);
+
+        // Добавить значение, подходящее в null ячейку
+        assertEquals(fullTreeNulls.AddKey(80), 4);
+        // Сразу пытаемся найти добавленный ключ
+        assertEquals(fullTreeNulls.FindKeyIndex(80), 4);
+
+        // Добавить значение, не подходящее в null ячейку
+        assertEquals(fullTreeNulls2.AddKey(45), -1);
+        // Пытаемся найти недобавленный ключ
+        assertNull(fullTreeNulls2.FindKeyIndex(45));
+        // Пытаемся найти ключ, который подойдет в null ячейку
+        //assertEquals(fullTreeNulls2.FindKeyIndex());
+
+    }
 }
