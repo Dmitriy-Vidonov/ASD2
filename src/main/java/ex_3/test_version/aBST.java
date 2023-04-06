@@ -13,7 +13,8 @@ class aBST {
     // Посчитать размер массива
     public int getSize(int depth) {
         int sum = 0;
-        if(depth == 0) return 0;
+        if(depth == 0) return 1;
+        depth++;
         while(depth >= 0) {
             sum += (int) Math.pow(2, depth - 1);
             depth--;

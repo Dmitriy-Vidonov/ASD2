@@ -9,15 +9,7 @@ c
 3src/test/java/ex_2/test_version/FinMinMax_Test.java,7\8\788d28bad4af09a1a7552d4033a785410de57116
 _
 /src/test/java/ex_2/test_version/Count_Test.java,5\f\5fa377309866a523c02feae09c2079413a69dc9c
-i
-9src/test/java/ex_2/test_version/DeleteNodeByKey_Test.java,d\1\d1f558d6365c9fb325a0dcfa6a538bcc0f5e125d
 c
 3src/main/java/ex_1/test_version/SimpleTreeNode.java,5\d\5d4a1f9a197506c6448039bffa88948165cb8e02
-f
-6src/test/java/ex_2/test_version/WideAllNodes_Test.java,2\0\20efa8dd227cfae7503b102f55bbe9bcc93b84cd
-f
-6src/test/java/ex_2/test_version/DeepAllNodes_Test.java,7\1\71355978b382014cdbef1e188e72eab3433b99a7
-X
-(src/main/java/ex_2/test_version/BST.java,e\b\eb74f49ec96407d8720a75991d0a2a74eefe19c3
 e
 5src/test/java/ex_2/test_version/AddKeyValue_Test.java,1\9\19fa949f59b766a027c564f5fa4ab38d6e68da1f
