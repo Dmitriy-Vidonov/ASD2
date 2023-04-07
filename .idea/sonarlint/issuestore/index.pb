@@ -13,3 +13,7 @@ c
 3src/main/java/ex_1/test_version/SimpleTreeNode.java,5\d\5d4a1f9a197506c6448039bffa88948165cb8e02
 e
 5src/test/java/ex_2/test_version/AddKeyValue_Test.java,1\9\19fa949f59b766a027c564f5fa4ab38d6e68da1f
+i
+9src/test/java/ex_3/test_version/Various_Methods_Test.java,9/d/9dd5e6ec72f1c7ef9251d7549859c20ec73a13ec
+`
+0src/test/java/ex_3/test_version/AddKey_Test.java,f/f/ffbcc8f4cf8c655a682b81ab420c1b2025d10218
