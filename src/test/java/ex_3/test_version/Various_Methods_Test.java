@@ -2,9 +2,7 @@ package ex_3.test_version;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
-
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -88,8 +86,7 @@ class Various_Methods_Test {
         // Проверка размера дерева
         assertEquals(7, emptyTree.Tree.length);
         // Поиск несуществующего элемента
-        // ******ПРОВЕРКА НЕ ПРОЙДЕНА!
-        assertNull(emptyTree.FindKeyIndex(100)); // почему null? должен быть 0
+        assertNull(emptyTree.FindKeyIndex(100));
         // Добавили элементы
         assertEquals(emptyTree.AddKey(100), 0);
         assertEquals(emptyTree.AddKey(50), 1);
@@ -98,14 +95,9 @@ class Various_Methods_Test {
         // Совершили поиск элементов
         assertEquals(emptyTree.FindKeyIndex(100), 0);
         assertEquals(emptyTree.FindKeyIndex(50), 1);
-        //assertEquals(emptyTree.FindKeyIndex(125), 2);
-        // ******ПРОВЕРКА НЕ ПРОЙДЕНА!
-        System.out.println(emptyTree.FindKeyIndex(125)); // вот и косяк! откуда -4?
-
+        assertEquals(emptyTree.FindKeyIndex(125), 2);
         //Ищем несуществующий элемент
-        //assertNull(emptyTree.FindKeyIndex(300));
-        // ******ПРОВЕРКА НЕ ПРОЙДЕНА!
-        System.out.println(emptyTree.FindKeyIndex(300)); // дает -4 вместо -6
+        assertNull(emptyTree.FindKeyIndex(300));
     }
 
     @Test
@@ -158,10 +150,44 @@ class Various_Methods_Test {
 
         // Добавить значение, не подходящее в null ячейку
         assertEquals(fullTreeNulls2.AddKey(45), -1);
+        fullTreeNulls2.ShowArray();
         // Пытаемся найти недобавленный ключ
-        assertNull(fullTreeNulls2.FindKeyIndex(45));
+        assertNull(fullTreeNulls2.FindKeyIndex(45)); // данная проверка не пройдена, т.к. в null ячейку поместить 45 нельзя, должно быть null
         // Пытаемся найти ключ, который подойдет в null ячейку
-        //assertEquals(fullTreeNulls2.FindKeyIndex());
+        //assertEquals(fullTreeNulls2.FindKeyIndex(90), -4);
+    }
 
+    @Test
+    @DisplayName("7) Проверка размера массива")
+    void ArrayLengthCheck() throws Exception {
+        int depth = 0; // задаем глубину
+        aBST treeCheck = new aBST(depth);
+        assertEquals(treeCheck.Tree.length, 1);
+
+        // Пробуем другую длину
+        depth = 1;
+        aBST treeCheck1 = new aBST(depth);
+        assertEquals(treeCheck1.Tree.length, 3);
+
+        // Пробуем другую длину
+        depth = 2;
+        aBST treeCheck2 = new aBST(depth);
+        assertEquals(treeCheck2.Tree.length, 7);
+    }
+
+    @Test
+    @DisplayName("8) Работа с деревом из 1 элемента")
+    void OneElementTree() throws Exception {
+        aBST tree1 = new aBST(0);
+        // Проверим размер массива
+        assertEquals(tree1.Tree.length, 1);
+        // Добавляем элемент
+        assertEquals(tree1.AddKey(50), 0);
+        // Поиск существующего элемента
+        assertEquals(tree1.FindKeyIndex(50), 0);
+        // Поиск несуществующего элемента
+        assertNull(tree1.FindKeyIndex(100));
+        // Попытаемся добавить еще один элемент
+        assertEquals(tree1.AddKey(75), -1);
     }
 }
