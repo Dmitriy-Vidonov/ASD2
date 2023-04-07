@@ -101,4 +101,18 @@ class AddKey_Test {
         assertEquals(completeTree.AddKey(25), 3);
         completeTree.ShowArray();
     }
+
+    @Test
+    @DisplayName("6) Заполнена только левая ветка")
+    void AddKey_only_left() throws Exception {
+        aBST leftTree = new aBST(3);
+        assertEquals(leftTree.AddKey(200), 0);
+       // assertEquals(leftTree.AddKey(100), 1);
+       // assertEquals(leftTree.AddKey(50), 3);
+       // assertEquals(leftTree.AddKey(25), 7);
+        // Правая ветка
+        assertEquals(leftTree.AddKey(300), 2);
+        assertEquals(leftTree.AddKey(400), 6);
+        assertEquals(leftTree.AddKey(500), 14);
+    }
 }
