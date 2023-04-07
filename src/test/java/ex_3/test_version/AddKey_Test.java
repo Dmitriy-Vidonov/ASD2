@@ -115,4 +115,152 @@ class AddKey_Test {
         assertEquals(leftTree.AddKey(400), 6);
         assertEquals(leftTree.AddKey(500), 14);
     }
+
+    @Test
+    @DisplayName("7) Пробуем выйти за пределы массива")
+    void AddKey_out_of_bounds() throws Exception {
+        aBST outTree = new aBST(2);
+        assertEquals(outTree.AddKey(1), 0);
+        assertEquals(outTree.AddKey(2), 2);
+        assertEquals(outTree.AddKey(3), 6);
+        assertEquals(outTree.AddKey(4), -1);
+    }
+
+    @Test
+    @DisplayName("8) Проверка дубликатов ключей")
+    public void testAddKeyDuplicate() throws Exception {
+        aBST tree = new aBST(3);
+        int index1 = tree.AddKey(10);
+        int index2 = tree.AddKey(10);
+        assertEquals(index1, index2);
+    }
+
+    @Test
+    @DisplayName("9) Добавление ключа в пустое дерево")
+    public void testAddKeyEmptyTree() throws Exception {
+        aBST tree = new aBST(3);
+        int index = tree.AddKey(10);
+        assertEquals(0, index);
+        assertEquals(Integer.valueOf(10), tree.Tree[index]);
+    }
+
+    @Test
+    @DisplayName("10) Добавление ключей в порядке возрастания")
+    public void testAddKeyAscend() throws Exception {
+        aBST tree = new aBST(3);
+        int index1 = tree.AddKey(10);
+        int index2 = tree.AddKey(20);
+        int index3 = tree.AddKey(30);
+        assertEquals(0, index1);
+        assertEquals(2, index2);
+        assertEquals(6, index3);
+        assertEquals(Integer.valueOf(10), tree.Tree[index1]);
+        assertEquals(Integer.valueOf(20), tree.Tree[index2]);
+        assertEquals(Integer.valueOf(30), tree.Tree[index3]);
+    }
+
+    @Test
+    @DisplayName("11) Добавление ключей в порядке убывания")
+    public void testAddKeyDesc() throws Exception {
+        aBST tree = new aBST(3);
+        int index1 = tree.AddKey(30);
+        int index2 = tree.AddKey(20);
+        int index3 = tree.AddKey(10);
+        assertEquals(0, index1);
+        assertEquals(1, index2);
+        assertEquals(3, index3);
+        assertEquals(Integer.valueOf(30), tree.Tree[index1]);
+        assertEquals(Integer.valueOf(20), tree.Tree[index2]);
+        assertEquals(Integer.valueOf(10), tree.Tree[index3]);
+    }
+
+    @Test
+    @DisplayName("12) Добавление ключа в произвольном порядке")
+    public void testAddKeyRandom() throws Exception {
+        aBST tree = new aBST(3);
+        int index1 = tree.AddKey(20);
+        int index2 = tree.AddKey(10);
+        int index3 = tree.AddKey(30);
+        assertEquals(0, index1);
+        assertEquals(1, index2);
+        assertEquals(2, index3);
+        assertEquals(Integer.valueOf(20), tree.Tree[index1]);
+        assertEquals(Integer.valueOf(10), tree.Tree[index2]);
+        assertEquals(Integer.valueOf(30), tree.Tree[index3]);
+    }
+
+    @Test
+    @DisplayName("13) Попытка выйти за предел массива")
+    public void testAddKeyOut() throws Exception {
+        aBST tree = new aBST(2);
+        tree.AddKey(10);
+        tree.AddKey(20);
+        tree.AddKey(30);
+        int index = tree.AddKey(40);
+        assertEquals(-1, index);
+    }
+
+    @Test
+    @DisplayName("14) Работа с несколькими уровнями дерева")
+    public void testAddKeyFewLevels() throws Exception {
+        aBST tree = new aBST(4);
+        int index1 = tree.AddKey(20);
+        int index2 = tree.AddKey(10);
+        int index3 = tree.AddKey(30);
+        int index4 = tree.AddKey(5);
+        int index5 = tree.AddKey(15);
+        int index6 = tree.AddKey(25);
+        int index7 = tree.AddKey(35);
+        assertEquals(0, index1);
+        assertEquals(1, index2);
+        assertEquals(2, index3);
+        assertEquals(3, index4);
+        assertEquals(4, index5);
+        assertEquals(5, index6);
+        assertEquals(6, index7);
+        assertEquals(Integer.valueOf(20), tree.Tree[index1]);
+        assertEquals(Integer.valueOf(10), tree.Tree[index2]);
+        assertEquals(Integer.valueOf(30), tree.Tree[index3]);
+        assertEquals(Integer.valueOf(5), tree.Tree[index4]);
+        assertEquals(Integer.valueOf(15), tree.Tree[index5]);
+        assertEquals(Integer.valueOf(25), tree.Tree[index6]);
+        assertEquals(Integer.valueOf(35), tree.Tree[index7]);
+    }
+
+    @Test
+    @DisplayName("15) Работа с отрицательными числами")
+    public void testAddKeyMinus() throws Exception {
+        aBST tree = new aBST(2);
+        assertEquals(tree.AddKey(-1), 0);
+        assertEquals(tree.AddKey(1), 2);
+        assertEquals(tree.AddKey(0), 5);
+    }
+
+    @Test
+    @DisplayName("16) Проверка корректности индекса добавленного элемента")
+    public void testAddKeyAdded() throws Exception {
+        aBST tree = new aBST(3);
+        int index = tree.AddKey(10);
+        assertEquals(0, index); // корень дерева
+        index = tree.AddKey(5);
+        assertEquals(1, index); // левый потомок корня
+        index = tree.AddKey(15);
+        assertEquals(2, index); // правый потомок корня
+    }
+
+    @Test
+    @DisplayName("17) Проверка корректности индекса существующего элемента")
+    public void testAddKeyExist() throws Exception {
+        aBST tree = new aBST(3);
+        int index = tree.AddKey(10);
+        assertEquals(0, index); // корень дерева
+        index = tree.AddKey(5);
+        assertEquals(1, index); // левый потомок корня
+        index = tree.AddKey(15);
+        assertEquals(2, index); // правый потомок корня
+
+        // добавляем существующий ключ
+        index = tree.AddKey(5);
+        assertEquals(1, index); // левый потомок корня
+    }
 }

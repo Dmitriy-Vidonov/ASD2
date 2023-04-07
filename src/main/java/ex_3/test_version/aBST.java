@@ -93,22 +93,21 @@ class aBST {
             Tree[0] = key;
             return 0;
         }
-        int index = 0;
-        while (index < Tree.length) {
-            if (Tree[index] == null) {
-                Tree[index] = key; // вот здесь обновляем index
-                return index;
-            } else if (key < Tree[index]) { // для левого потомка
-                index = 2 * index + 1; // здесь обновляем index
-            } else if (key > Tree[index]) { // для правого потомка
-                index = 2 * index + 2; // здесь обновляем index
-            } else if (key == Tree[index]) {
-                return index;
+        int index = 0; // начинаем с корня дерева
+        while (index < Tree.length) { // пока не вышли за пределы массива
+            if (Tree[index] == null) { // если текущий элемент пуст
+                Tree[index] = key; // добавляем ключ в текущий элемент
+                return index; // возвращаем индекс добавленного элемента
+            } else if (key < Tree[index]) { // если ключ меньше текущего элемента
+                index = 2 * index + 1; // переходим к левому потомку
+            } else if (key > Tree[index]) { // если ключ больше текущего элемента
+                index = 2 * index + 2; // переходим к правому потомку
+            } else if (key == Tree[index]) { // если ключ равен текущему элементу
+                return index; // возвращаем индекс существующего элемента
             }
             else return index;
         }
-        return -1;
-        // индекс добавленного/существующего ключа или -1 если не удалось
+        return -1; // если не удалось добавить элемент, возвращаем -1
     }
 }
 /*
