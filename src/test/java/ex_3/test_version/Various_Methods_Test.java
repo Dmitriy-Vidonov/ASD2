@@ -97,7 +97,7 @@ class Various_Methods_Test {
         assertEquals(emptyTree.FindKeyIndex(50), 1);
         assertEquals(emptyTree.FindKeyIndex(125), 2);
         //Ищем несуществующий элемент
-        assertNull(emptyTree.FindKeyIndex(300));
+        assertEquals(emptyTree.FindKeyIndex(300), -6);
     }
 
     @Test
@@ -189,5 +189,39 @@ class Various_Methods_Test {
         assertNull(tree1.FindKeyIndex(100));
         // Попытаемся добавить еще один элемент
         assertEquals(tree1.AddKey(75), -1);
+    }
+
+    @Test
+    @DisplayName("9) Проверка метода AddKey()")
+    void AddKey_Test() throws Exception {
+        // Задаем дерево
+        aBST addKTree = new aBST(2);
+        assertEquals(addKTree.AddKey(100), 0);
+        assertEquals(addKTree.AddKey(70), 1);
+        assertEquals(addKTree.AddKey(200), 2);
+        assertEquals(addKTree.AddKey(50), 3);
+        assertEquals(addKTree.AddKey(90), 4);
+        assertEquals(addKTree.AddKey(300), 6);
+        // Пытаемся добавить корректный узел
+        assertEquals(addKTree.AddKey(150), 5);
+
+        // Создаем новое дерево
+        aBST addKTree2 = new aBST(2);
+        assertEquals(addKTree2.AddKey(100), 0);
+        assertEquals(addKTree2.AddKey(70), 1);
+        assertEquals(addKTree2.AddKey(200), 2);
+        assertEquals(addKTree2.AddKey(50), 3);
+        assertEquals(addKTree2.AddKey(90), 4);
+        assertEquals(addKTree2.AddKey(300), 6);
+        // Пытаемся добавить некорректный узел
+        assertEquals(addKTree2.AddKey(250), -1);
+
+        // Создаем новое дерево
+        aBST addKTree3 = new aBST(2);
+        assertEquals(addKTree3.AddKey(100), 0);
+        assertEquals(addKTree3.AddKey(50), 1);
+        assertEquals(addKTree3.AddKey(90), 4);
+        // Пробуем добавить дубль
+        assertEquals(addKTree3.AddKey(90), -1);
     }
 }

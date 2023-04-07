@@ -31,8 +31,7 @@ class aBST {
     }
 
     public Integer FindKeyIndex(int key) {
-        int index = 0;
-        return FindKeyHelper(index, key);
+        return FindKeyHelper(0, key);
     }
 
     private Integer FindKeyHelper(int index, int key) {
@@ -45,12 +44,27 @@ class aBST {
         // Если элемент массива равен null
         if (Tree[index] == null) {
             // Если индекс равен 0, возвращаем null
-            if (index == 0) return null;
-            // Если ключ меньше элемента массива с индексом (index - 1) / 2
-            if (key < Tree[(index - 1) / 2]) {
-                // Возвращаем индекс умноженный на -1
+            if (index == 0) return null; // Типа если корень = null
+
+            // Получаем индекс родителя
+            int parentIndex = (index - 1) / 2;
+            // узел - правый потомок, больше родителя и меньше корня, левое поддерево - родитель меньше корня
+            if(index == 2 * parentIndex + 2 && key > Tree[parentIndex] && key < Tree[0] && Tree[parentIndex] < Tree[0]) {
                 return index * -1;
-            } else {
+            }
+            // узел - левый потомок, меньше родителя и меньше корня, левое поддерево - родитель меньше корня
+            else if (index == 2 * parentIndex + 1 && key < Tree[parentIndex] && key < Tree[0] && Tree[parentIndex] < Tree[0]) {
+                return index * -1;
+            }
+            // узел - правый потомок, больше родителя и больше корня, правое поддерево - родитель больше корня
+            else if(index == 2 * parentIndex + 2 && key > Tree[parentIndex] && key > Tree[0] && Tree[parentIndex] > Tree[0]) {
+                return index * -1;
+            }
+            // узел - левый потомок, меньше родителя и больше корня, правое поддерево - родитель больше корня
+            else if(index == 2 * parentIndex + 1 && key < Tree[parentIndex] && key > Tree[0] && Tree[parentIndex] > Tree[0]) {
+                return index * -1;
+            }
+            else {
                 // Иначе возвращаем null
                 return null;
             }
@@ -86,7 +100,10 @@ class aBST {
                 index = 2 * index + 1; // здесь обновляем index
             } else if (key > Tree[index]) { // для правого потомка
                 index = 2 * index + 2; // здесь обновляем index
-            } else return index;
+            } else if (key == Tree[index]) {
+                return -1;
+            }
+            else return index;
         }
         return -1;
         // индекс добавленного/существующего ключа или -1 если не удалось
@@ -94,9 +111,9 @@ class aBST {
 }
 /*
 *1-я ошибка была - типа при глубине 3 должно быть 15 элементов в массиве
-* но она проистекает из недостаточности условия задачи. Не было указано что при 3 например столько, при 1 - столько
+* Исправлена
 *
 * 2-я ошибка была - AddKey() не возвращает корректный индекс добавленного элемента
-*
+* Скорее всего проверялся случай добавления дубля
 *
 */
