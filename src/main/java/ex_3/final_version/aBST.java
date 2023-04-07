@@ -22,11 +22,10 @@ class aBST
         return sum;
     }
 
-    public Integer FindKeyIndex(int key)
-    {
-        int index = 0;
-        return FindKeyHelper(index, key);
+    public Integer FindKeyIndex(int key) {
+        return FindKeyHelper(0, key);
     }
+
     private Integer FindKeyHelper(int index, int key) {
         if (index > Tree.length-1) return null;
 
@@ -34,9 +33,25 @@ class aBST
 
         if (Tree[index] == null) {
             if (index == 0) return null;
-            if ((index % 2 == 1 && key < Tree[(index - 1) / 2]) || (index % 2 == 0 && key > Tree[(index - 2) / 2])) {
+
+            int parentIndex = (index - 1) / 2;
+            if(index == 2 * parentIndex + 2 && key > Tree[parentIndex] && key < Tree[0]
+                    && (Tree[parentIndex] < Tree[0] || Tree[parentIndex] == Tree[0])) {
                 return index * -1;
-            } else {
+            }
+            else if (index == 2 * parentIndex + 1 && key < Tree[parentIndex] && key < Tree[0]
+                    && (Tree[parentIndex] < Tree[0] || Tree[parentIndex] == Tree[0])) {
+                return index * -1;
+            }
+            else if(index == 2 * parentIndex + 2 && key > Tree[parentIndex] && key > Tree[0]
+                    && (Tree[parentIndex] > Tree[0] || Tree[parentIndex] == Tree[0])) {
+                return index * -1;
+            }
+            else if(index == 2 * parentIndex + 1 && key < Tree[parentIndex] && key > Tree[0]
+                    && (Tree[parentIndex] > Tree[0] || Tree[parentIndex] == Tree[0])) {
+                return index * -1;
+            }
+            else {
                 return null;
             }
         }
@@ -49,24 +64,23 @@ class aBST
         return null;
     }
 
-    public int AddKey(int key)
-    {
-        if(Tree.length == 0) return -1;
-        if(Tree[0] == null) {
+    public int AddKey(int key) {
+        if (Tree.length == 0) return -1;
+        if (Tree[0] == null) {
             Tree[0] = key;
             return 0;
         }
         int index = 0;
         while (index < Tree.length) {
-            if(Tree[index] == null) {
+            if (Tree[index] == null) {
                 Tree[index] = key;
                 return index;
-            }
-            else if(key < Tree[index]) {
+            } else if (key < Tree[index]) {
                 index = 2 * index + 1;
-            }
-            else if(key > Tree[index]) {
+            } else if (key > Tree[index]) {
                 index = 2 * index + 2;
+            } else if (key == Tree[index]) {
+                return -1;
             }
             else return index;
         }

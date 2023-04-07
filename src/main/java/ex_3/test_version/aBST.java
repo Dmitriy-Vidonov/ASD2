@@ -48,20 +48,24 @@ class aBST {
 
             // Получаем индекс родителя
             int parentIndex = (index - 1) / 2;
-            // узел - правый потомок, больше родителя и меньше корня, левое поддерево - родитель меньше корня
-            if(index == 2 * parentIndex + 2 && key > Tree[parentIndex] && key < Tree[0] && Tree[parentIndex] < Tree[0]) {
+            // узел - правый потомок, больше родителя и меньше корня, левое поддерево - родитель меньше корня или корень
+            if(index == 2 * parentIndex + 2 && key > Tree[parentIndex] && key < Tree[0]
+                    && (Tree[parentIndex] < Tree[0] || Tree[parentIndex] == Tree[0])) {
                 return index * -1;
             }
-            // узел - левый потомок, меньше родителя и меньше корня, левое поддерево - родитель меньше корня
-            else if (index == 2 * parentIndex + 1 && key < Tree[parentIndex] && key < Tree[0] && Tree[parentIndex] < Tree[0]) {
+            // узел - левый потомок, меньше родителя и меньше корня, левое поддерево - родитель меньше корня или корень
+            else if (index == 2 * parentIndex + 1 && key < Tree[parentIndex] && key < Tree[0]
+                    && (Tree[parentIndex] < Tree[0] || Tree[parentIndex] == Tree[0])) {
                 return index * -1;
             }
-            // узел - правый потомок, больше родителя и больше корня, правое поддерево - родитель больше корня
-            else if(index == 2 * parentIndex + 2 && key > Tree[parentIndex] && key > Tree[0] && Tree[parentIndex] > Tree[0]) {
+            // узел - правый потомок, больше родителя и больше корня, правое поддерево - родитель больше корня или корень
+            else if(index == 2 * parentIndex + 2 && key > Tree[parentIndex] && key > Tree[0]
+                    && (Tree[parentIndex] > Tree[0] || Tree[parentIndex] == Tree[0])) {
                 return index * -1;
             }
-            // узел - левый потомок, меньше родителя и больше корня, правое поддерево - родитель больше корня
-            else if(index == 2 * parentIndex + 1 && key < Tree[parentIndex] && key > Tree[0] && Tree[parentIndex] > Tree[0]) {
+            // узел - левый потомок, меньше родителя и больше корня, правое поддерево - родитель больше корня или корень
+            else if(index == 2 * parentIndex + 1 && key < Tree[parentIndex] && key > Tree[0]
+                    && (Tree[parentIndex] > Tree[0] || Tree[parentIndex] == Tree[0])) {
                 return index * -1;
             }
             else {
@@ -114,6 +118,6 @@ class aBST {
 * Исправлена
 *
 * 2-я ошибка была - AddKey() не возвращает корректный индекс добавленного элемента
-* Скорее всего проверялся случай добавления дубля
-*
+* Скорее всего проверялся случай добавления дубля - данный момент скорректирован.
+* Плюс исправлен метод FindKeyIndex, который при обходе дерева некорректно проверял возможность вставки ключа в узел
 */

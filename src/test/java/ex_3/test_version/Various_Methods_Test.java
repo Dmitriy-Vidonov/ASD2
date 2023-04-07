@@ -2,7 +2,6 @@ package ex_3.test_version;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import java.util.ArrayList;
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -223,5 +222,14 @@ class Various_Methods_Test {
         assertEquals(addKTree3.AddKey(90), 4);
         // Пробуем добавить дубль
         assertEquals(addKTree3.AddKey(90), -1);
+    }
+
+    @Test
+    @DisplayName("10) Проверка с неполным деревом")
+    void UnfullTree() throws Exception {
+        aBST tree1 = new aBST(2);
+        assertEquals(tree1.AddKey(100), 0);
+        assertEquals(tree1.AddKey(50), 1);
+        assertEquals(tree1.FindKeyIndex(125), -2);
     }
 }
