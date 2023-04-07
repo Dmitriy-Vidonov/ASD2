@@ -65,7 +65,6 @@ class aBST
     }
 
     public int AddKey(int key) {
-        if (Tree.length == 0) return -1;
         if (Tree[0] == null) {
             Tree[0] = key;
             return 0;
@@ -80,7 +79,7 @@ class aBST
             } else if (key > Tree[index]) {
                 index = 2 * index + 2;
             } else if (key == Tree[index]) {
-                return -1;
+                return index;
             }
             else return index;
         }

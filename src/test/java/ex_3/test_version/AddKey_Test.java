@@ -16,7 +16,7 @@ class AddKey_Test {
         // Попытались добавить второй элемент, ловим -1 (отказ)
         assertEquals(one_element_tree.AddKey(50), -1);
         // Попытались добавить дубль
-        assertEquals(one_element_tree.AddKey(100), -1);
+        assertEquals(one_element_tree.AddKey(100), 0);
     }
 
     @Test
@@ -40,9 +40,9 @@ class AddKey_Test {
         // Добавим корректное значение
         assertEquals(threeTree3.AddKey(5), 1);
         // Добавим дубль в заполненное дерево
-        assertEquals(threeTree3.AddKey(10), -1); // вместо корня
-        assertEquals(threeTree3.AddKey(5), -1); // вместо левого потомка
-        assertEquals(threeTree3.AddKey(20), -1); // вместо правого потомка
+        assertEquals(threeTree3.AddKey(10), 0); // вместо корня
+        assertEquals(threeTree3.AddKey(5), 1); // вместо левого потомка
+        assertEquals(threeTree3.AddKey(20), 2); // вместо правого потомка
     }
 
     @Test
@@ -60,13 +60,45 @@ class AddKey_Test {
         // Добавить некорректный элемент в правого потомка с null
         assertEquals(sevenTree.AddKey(170), -1);
         // Добавить дубль корня
-        assertEquals(sevenTree.AddKey(100), -1);
+        assertEquals(sevenTree.AddKey(100), 0);
         // Добавить дубль корня поддерева
-        assertEquals(sevenTree.AddKey(150), -1);
+        assertEquals(sevenTree.AddKey(150), 2);
         // Добавить дубль листа
-        assertEquals(sevenTree.AddKey(200), -1);
+        assertEquals(sevenTree.AddKey(200), 6);
         // Заполнить один из null корректно и сразу попытаться добавить дубль этого же ключа
         assertEquals(sevenTree.AddKey(125), 5);
-        assertEquals(sevenTree.AddKey(125), -1);
+        assertEquals(sevenTree.AddKey(125), 5);
+    }
+
+    @Test
+    @DisplayName("4) Дерево из 7-ми элементов, 2 null-а у непустого узла")
+    void AddKey_seven_tree_2_nulls() throws Exception {
+        aBST sevenTree2nulls = new aBST(2);
+        assertEquals(sevenTree2nulls.AddKey(100), 0);
+        assertEquals(sevenTree2nulls.AddKey(50), 1);
+        assertEquals(sevenTree2nulls.AddKey(150), 2);
+        assertEquals(sevenTree2nulls.AddKey(25), 3);
+        // Добавить элемент, не подходящий в созданное дерево
+        assertEquals(sevenTree2nulls.AddKey(10), -1);
+        // Добавить подходящий элемент
+        assertEquals(sevenTree2nulls.AddKey(200), 6);
+        // Добавить дубль корня
+        assertEquals(sevenTree2nulls.AddKey(100), 0);
+        // Добавить дубль корня поддерева
+        assertEquals(sevenTree2nulls.AddKey(150), 2);
+    }
+
+    @Test
+    @DisplayName("5) Заполнение дерева из 7-ми элементов")
+    void AddKey_completing_tree() throws Exception {
+        aBST completeTree = new aBST(2);
+        assertEquals(completeTree.AddKey(100), 0);
+        assertEquals(completeTree.AddKey(150), 2);
+        assertEquals(completeTree.AddKey(125), 5);
+        assertEquals(completeTree.AddKey(175), 6);
+        assertEquals(completeTree.AddKey(50), 1);
+        assertEquals(completeTree.AddKey(75), 4);
+        assertEquals(completeTree.AddKey(25), 3);
+        completeTree.ShowArray();
     }
 }

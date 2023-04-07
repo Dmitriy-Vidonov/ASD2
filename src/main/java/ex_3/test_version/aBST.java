@@ -103,7 +103,7 @@ class aBST {
             } else if (key > Tree[index]) { // для правого потомка
                 index = 2 * index + 2; // здесь обновляем index
             } else if (key == Tree[index]) {
-                return -1;
+                return index;
             }
             else return index;
         }

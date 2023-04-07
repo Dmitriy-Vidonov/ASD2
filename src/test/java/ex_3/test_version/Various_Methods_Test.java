@@ -62,7 +62,7 @@ class Various_Methods_Test {
           assertEquals(9, tree.AddKey(30));
           assertEquals(10, tree.AddKey(45));
           assertEquals(13, tree.AddKey(90));
-          assertEquals(14, tree.AddKey(120)); // на этом этапе дошли до конца дерева условно
+          assertEquals(14, tree.AddKey(120));
 
         // Проверка поиска ключей
           assertEquals(0, tree.FindKeyIndex(50));
@@ -151,9 +151,9 @@ class Various_Methods_Test {
         assertEquals(fullTreeNulls2.AddKey(45), -1);
         fullTreeNulls2.ShowArray();
         // Пытаемся найти недобавленный ключ
-        assertNull(fullTreeNulls2.FindKeyIndex(45)); // данная проверка не пройдена, т.к. в null ячейку поместить 45 нельзя, должно быть null
+        assertNull(fullTreeNulls2.FindKeyIndex(45));
         // Пытаемся найти ключ, который подойдет в null ячейку
-        //assertEquals(fullTreeNulls2.FindKeyIndex(90), -4);
+        assertEquals(fullTreeNulls2.FindKeyIndex(90), -4);
     }
 
     @Test
@@ -221,7 +221,7 @@ class Various_Methods_Test {
         assertEquals(addKTree3.AddKey(50), 1);
         assertEquals(addKTree3.AddKey(90), 4);
         // Пробуем добавить дубль
-        assertEquals(addKTree3.AddKey(90), -1);
+        assertEquals(addKTree3.AddKey(90), 4);
     }
 
     @Test
