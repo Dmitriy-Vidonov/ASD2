@@ -11,8 +11,10 @@ class Various_Methods_Test {
     @Test
     @DisplayName("1) Проверка расчета размера массива")
     void getSize() throws Exception {
-        aBST treeTest = new aBST(depth);
-        System.out.println("Рассчитаный размер массива - " + treeTest.getSize(depth));
+        int depth1 = 5;
+        aBST treeTest = new aBST(depth1);
+        System.out.println("Рассчитаный размер массива - " + treeTest.getSize(depth1));
+        System.out.println("Реальный размер массива - " + treeTest.Tree.length);
     }
 
     @Test

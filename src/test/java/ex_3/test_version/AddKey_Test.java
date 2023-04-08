@@ -263,4 +263,47 @@ class AddKey_Test {
         index = tree.AddKey(5);
         assertEquals(1, index); // левый потомок корня
     }
+
+    @Test
+    @DisplayName("18) Дерево на 5 уровней. По убыванию, затем по возрастанию")
+    public void testAddKeyDescAsc() throws Exception {
+        aBST tree = new aBST(5);
+        // Добавляем ряд значений по убыванию
+        assertEquals(0, tree.AddKey(0));
+        assertEquals(1, tree.AddKey(-1));
+        assertEquals(3, tree.AddKey(-2));
+        assertEquals(7, tree.AddKey(-3));
+        assertEquals(15, tree.AddKey(-4));
+        assertEquals(31, tree.AddKey(-5));
+        // Пробуем добавить значение за рамками дерева
+        assertEquals(-1, tree.AddKey(-6));
+        // Пробуем добавить дубль - получаем индекс существующего элемента
+        assertEquals(31, tree.AddKey(-5));
+
+        // Добавляем ряд значений по возрастанию
+        assertEquals(2, tree.AddKey(1));
+        assertEquals(6, tree.AddKey(2));
+        assertEquals(14, tree.AddKey(3));
+        assertEquals(30, tree.AddKey(4));
+        assertEquals(62, tree.AddKey(5));
+        // Пробуем добавить значение за рамками дерева
+        assertEquals(-1, tree.AddKey(6));
+        // Пробуем добавить дубль - получаем индекс существующего элемента
+        assertEquals(62, tree.AddKey(5));
+    }
+
+    @Test
+    @DisplayName("19) Обновление элементов в дереве")
+    public void testAddKeyUpdate() throws Exception {
+        // Проверка возможности обновления элементов
+        aBST tree = new aBST(2);
+        // Заполнили дерево значениями
+        assertEquals(0, tree.AddKey(10));
+        assertEquals(1, tree.AddKey(5));
+        assertEquals(2, tree.AddKey(20));
+        assertEquals(3, tree.AddKey(2));
+        assertEquals(4, tree.AddKey(7));
+        assertEquals(5, tree.AddKey(15));
+        assertEquals(6, tree.AddKey(40));
+    }
 }
