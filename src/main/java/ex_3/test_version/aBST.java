@@ -31,61 +31,32 @@ class aBST {
     }
 
     public Integer FindKeyIndex(int key) {
-        return FindKeyHelper(0, key);
-    }
+    return FindKeyHelper(0, key); // запускаем вспомогательный метод с начальным индексом 0
+}
 
-    private Integer FindKeyHelper(int index, int key) {
-        // Если индекс больше длины массива, возвращаем null
-        if (index > Tree.length-1) return null;
-
-        // Если элемент массива не равен null и равен ключу, возвращаем индекс
-        if (Tree[index] != null && Tree[index] == key) return index;
-
-        // Если элемент массива равен null
-        if (Tree[index] == null) {
-            // Если индекс равен 0, возвращаем null
-            if (index == 0) return null; // Типа если корень = null
-
-            // Получаем индекс родителя
-            int parentIndex = (index - 1) / 2;
-            // узел - правый потомок, больше родителя и меньше корня, левое поддерево - родитель меньше корня или корень
-            if(index == 2 * parentIndex + 2 && key > Tree[parentIndex] && key < Tree[0]
-                    && (Tree[parentIndex] < Tree[0] || Tree[parentIndex] == Tree[0])) {
-                return index * -1;
-            }
-            // узел - левый потомок, меньше родителя и меньше корня, левое поддерево - родитель меньше корня или корень
-            else if (index == 2 * parentIndex + 1 && key < Tree[parentIndex] && key < Tree[0]
-                    && (Tree[parentIndex] < Tree[0] || Tree[parentIndex] == Tree[0])) {
-                return index * -1;
-            }
-            // узел - правый потомок, больше родителя и больше корня, правое поддерево - родитель больше корня или корень
-            else if(index == 2 * parentIndex + 2 && key > Tree[parentIndex] && key > Tree[0]
-                    && (Tree[parentIndex] > Tree[0] || Tree[parentIndex] == Tree[0])) {
-                return index * -1;
-            }
-            // узел - левый потомок, меньше родителя и больше корня, правое поддерево - родитель больше корня или корень
-            else if(index == 2 * parentIndex + 1 && key < Tree[parentIndex] && key > Tree[0]
-                    && (Tree[parentIndex] > Tree[0] || Tree[parentIndex] == Tree[0])) {
-                return index * -1;
-            }
-            else {
-                // Иначе возвращаем null
-                return null;
-            }
-        }
-        // Рекурсивно вызываем функцию для левого поддерева
-        Integer left = FindKeyHelper(index * 2 + 1, key);
-        // Если результат не равен null, возвращаем его
-        if (left != null) return left;
-
-        // Рекурсивно вызываем функцию для правого поддерева
-        Integer right = FindKeyHelper(index * 2 + 2, key);
-        // Если результат не равен null, возвращаем его
-        if (right != null) return right;
-
-        // Возвращаем null
+private Integer FindKeyHelper(int index, int key) {
+    // если текущий индекс больше либо равен длине дерева или текущий узел пуст, то возвращаем null
+    if (index >= Tree.length || Tree[index] == null) {
         return null;
     }
+    // если текущий узел содержит переданный ключ, то возвращаем его индекс
+    if (Tree[index] == key) {
+        return index;
+    }
+    // определяем индексы дочерних узлов
+    int leftChildIndex = 2 * index + 1;
+    int rightChildIndex = 2 * index + 2;
+    // если левый дочерний узел существует и его значение меньше искомого ключа, то продолжаем поиск в левом поддереве
+    if (leftChildIndex < Tree.length && key < Tree[index]) {
+        return FindKeyHelper(leftChildIndex, key);
+    }
+    // если правый дочерний узел существует и его значение больше искомого ключа, то продолжаем поиск в правом поддереве
+    if (rightChildIndex < Tree.length && key > Tree[index]) {
+        return FindKeyHelper(rightChildIndex, key);
+    }
+    // если узел с искомым ключом не найден, возвращаем null
+    return null;
+}
 
     public int AddKey(int key) {
         // Работа с корневым узлом
