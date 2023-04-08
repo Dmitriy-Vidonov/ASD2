@@ -306,4 +306,152 @@ class AddKey_Test {
         assertEquals(5, tree.AddKey(15));
         assertEquals(6, tree.AddKey(40));
     }
+
+    @Test
+    @DisplayName("20) Добавление ключа, который уже есть в дереве")
+    public void testAddKeyExistKey() throws Exception {
+        aBST tree = new aBST(2);
+        tree.AddKey(5);
+        tree.AddKey(3);
+        int index = tree.AddKey(5);
+        assertEquals(0, index);
+    }
+
+    @Test
+    @DisplayName("21) Добавление ключа, который больше максимального, меньше минимального, после полного дерева")
+    public void testAddKeyMaxKey() throws Exception {
+        aBST tree = new aBST(1);
+        tree.AddKey(5);
+        tree.AddKey(3);
+        tree.AddKey(10);
+        // добавление больше максимального
+        int index = tree.AddKey(20);
+        assertEquals(-1, index);
+        // добавление меньше минимального
+        index = tree.AddKey(2);
+        assertEquals(-1, index);
+        // добавление когда дерево полное
+        index = tree.AddKey(15);
+        assertEquals(-1, index);
+    }
+
+    @Test
+    @DisplayName("22) Добавление ключа в пустое дерево")
+    public void testAddKeyEmpty() throws Exception {
+        aBST tree = new aBST(2);
+        int index = tree.AddKey(5);
+        assertEquals(0, index);
+    }
+
+    @Test
+    @DisplayName("23) Добавление ключа дублем в лист")
+    public void testAddKeyNonStandart() throws Exception {
+        aBST tree = new aBST(1);
+        assertEquals(0, tree.AddKey(5));
+        assertEquals(1, tree.AddKey(2));
+        assertEquals(2, tree.AddKey(8));
+
+        int index = tree.AddKey(4);
+        assertEquals(-1, index);
+    }
+
+    @Test
+    @DisplayName("24) Проверка на дубли")
+    public void testAddKeyDouble() throws Exception {
+        aBST tree = new aBST(1);
+        assertEquals(0, tree.AddKey(5));
+        assertEquals(0, tree.AddKey(5));
+        assertEquals(0, tree.AddKey(5));
+        assertEquals(0, tree.AddKey(5));
+    }
+
+    @Test
+    @DisplayName("25) Полное дерево. Добавление элемента с ключом меньше корня")
+    public void testAddKeylessThanRoot() throws Exception {
+        aBST tree = new aBST(1);
+        // Создаем дерево
+        assertEquals(0, tree.AddKey(5));
+        assertEquals(1, tree.AddKey(2));
+        assertEquals(2, tree.AddKey(8));
+        // Добавляем элемент меньше дерева
+        assertEquals(-1, tree.AddKey(0));
+    }
+
+    @Test
+    @DisplayName("26) Полное дерево. Добавление элемента с ключом больше корня, но меньше единственного потомка")
+    public void testAddKeyBiggerThanRootLessThanKid() throws Exception {
+        aBST tree = new aBST(1);
+        // Создаем дерево
+        assertEquals(0, tree.AddKey(5));
+        assertEquals(2, tree.AddKey(10));
+        // Добавляем элемент меньше дерева
+        assertEquals(-1, tree.AddKey(7));
+    }
+
+    @Test
+    @DisplayName("27) Полное дерево. Добавление элемента с ключом больше корня и больше единственного потомка")
+    public void testAddKeyBiggerThanRootAndKid() throws Exception {
+        aBST tree = new aBST(1);
+        // Создаем дерево
+        assertEquals(0, tree.AddKey(5));
+        assertEquals(2, tree.AddKey(10));
+        // Добавляем элемент меньше дерева
+        assertEquals(-1, tree.AddKey(15));
+    }
+
+    @Test
+    @DisplayName("28) Полное дерево. Добавление элемента с ключом равным корню")
+    public void testAddKeySameAsRoot() throws Exception {
+        aBST tree = new aBST(1);
+        // Создаем дерево
+        assertEquals(0, tree.AddKey(5));
+        assertEquals(2, tree.AddKey(10));
+        assertEquals(1, tree.AddKey(2));
+
+        assertEquals(0, tree.AddKey(5));
+    }
+
+    @Test
+    @DisplayName("29) Полное дерево. Добавление элемента с ключом равным некорневому узлу")
+    public void testAddKeySameAsNode() throws Exception {
+        aBST tree = new aBST(1);
+        // Создаем дерево
+        assertEquals(0, tree.AddKey(5));
+        assertEquals(2, tree.AddKey(10));
+        assertEquals(1, tree.AddKey(2));
+
+        assertEquals(2, tree.AddKey(10));
+    }
+
+
+    // containsKey - содержится ли ключ в дереве
+    // если containsKey - ок, то Addkey должен вернуть индекс существуюшего элемента
+    @Test
+    @DisplayName("30) Заполнение рандомными значениями")
+    void TestRandAddKey() throws Exception {
+        aBST tree = new aBST(10);
+        // Создаем Integer[] массив случайных значений
+        Integer[] array = aBST.randArray(tree.Tree.length, -1000, 1000);
+        boolean result = false;
+        int key = -1;
+        int index = -1;
+
+        for(Integer num : array) {
+            // это все ниже - в цикле
+            key = num;
+            index = tree.AddKey(key); // Добавили в дерево случайный ключ, сохранили в index
+            if(index == -1 && tree.containsKey(key) == -1) { // если добавить не смогли и в дереве его нет
+                result = true;
+            }
+            if(index != -1 && tree.containsKey(key) == index) { // если добавить смогли и элемент есть в дереве
+                result = true;
+            }
+        }
+
+        if(result == false) {
+            System.out.println("ошибка при key = " + key + " и index = " + index);
+            fail(); // не прошли тест, если result не менялся
+
+        }
+    }
 }

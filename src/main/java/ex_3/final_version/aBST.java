@@ -12,14 +12,10 @@ class aBST
     }
 
     public int getSize(int depth) {
-        int sum = 0;
-        if(depth == 0) return 1;
-        depth++;
-        while(depth >= 0) {
-            sum += (int) Math.pow(2, depth - 1);
-            depth--;
+        if (depth < 0) {
+            return 0;
         }
-        return sum;
+        return (int) Math.pow(2, depth + 1) -1;
     }
 
     public Integer FindKeyIndex(int key) {
@@ -27,7 +23,7 @@ class aBST
     }
 
     private Integer FindKeyHelper(int index, int key) {
-        if (index > Tree.length-1) return null;
+        if (index >= Tree.length) return null;
 
         if (Tree[index] != null && Tree[index] == key) return index;
 

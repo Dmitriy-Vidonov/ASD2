@@ -234,4 +234,14 @@ class Various_Methods_Test {
         assertEquals(tree1.AddKey(50), 1);
         assertEquals(tree1.FindKeyIndex(125), -2);
     }
+
+    @Test
+    @DisplayName("11) Найти несуществующий ключ")
+    void TestNoKey() throws Exception {
+        aBST tree1 = new aBST(1);
+        assertEquals(tree1.AddKey(100), 0);
+        assertEquals(tree1.AddKey(50), 1);
+        assertEquals(tree1.AddKey(150), 2);
+        assertNull(tree1.FindKeyIndex(45));
+    }
 }

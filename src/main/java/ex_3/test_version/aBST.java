@@ -12,14 +12,10 @@ class aBST {
 
     // Посчитать размер массива
     public int getSize(int depth) {
-        int sum = 0;
-        if(depth == 0) return 1;
-        depth++;
-        while(depth >= 0) {
-            sum += (int) Math.pow(2, depth - 1);
-            depth--;
+        if (depth < 0) {
+            return 0;
         }
-        return sum;
+        return (int) Math.pow(2, depth + 1) -1;
     }
 
     // Вывод содержимого массива на экран
@@ -30,35 +26,47 @@ class aBST {
         System.out.println();
     }
 
-   public Integer FindKeyIndex(int key) {
-    return FindKeyHelper(0, key);
-}
+    public Integer FindKeyIndex(int key) {
+        return FindKeyHelper(0, key);
+    }
 
-private Integer FindKeyHelper(int index, int key) {
-    if (index >= Tree.length || Tree[index] == null) {
-        // Если индекс больше или равен длине массива или элемент по этому индексу null,
-        // значит мы дошли до конца дерева или встретили незаполненный узел.
-        // В любом случае, надо проверить, можно ли вставить искомый ключ в текущую ячейку дерева.
-        // Если да, то мы должны вернуть отрицательный индекс текущей ячейки, чтобы указать на возможное место вставки ключа.
-        if (index * 2 + 1 < Tree.length) { // проверяем, существует ли левый потомок
-            return -index - 1; // индекс ячейки, где можно было бы вставить искомый ключ
-        } else {
-            return null; // индекса ячейки для вставки ключа нет, поэтому возвращаем null
+    private Integer FindKeyHelper(int index, int key) {
+        if (index >= Tree.length) return null;
+
+        if (Tree[index] != null && Tree[index] == key) return index;
+
+        if (Tree[index] == null) {
+            if (index == 0) return null;
+
+            int parentIndex = (index - 1) / 2;
+            if(index == 2 * parentIndex + 2 && key > Tree[parentIndex] && key < Tree[0]
+                    && (Tree[parentIndex] < Tree[0] || Tree[parentIndex] == Tree[0])) {
+                return index * -1;
+            }
+            else if (index == 2 * parentIndex + 1 && key < Tree[parentIndex] && key < Tree[0]
+                    && (Tree[parentIndex] < Tree[0] || Tree[parentIndex] == Tree[0])) {
+                return index * -1;
+            }
+            else if(index == 2 * parentIndex + 2 && key > Tree[parentIndex] && key > Tree[0]
+                    && (Tree[parentIndex] > Tree[0] || Tree[parentIndex] == Tree[0])) {
+                return index * -1;
+            }
+            else if(index == 2 * parentIndex + 1 && key < Tree[parentIndex] && key > Tree[0]
+                    && (Tree[parentIndex] > Tree[0] || Tree[parentIndex] == Tree[0])) {
+                return index * -1;
+            }
+            else {
+                return null;
+            }
         }
-    }
-    if (Tree[index] == key) {
-        return index;
-    }
-    int leftChildIndex = 2 * index + 1;
-    int rightChildIndex = 2 * index + 2;
-    if (key < Tree[index]) {
-        return FindKeyHelper(leftChildIndex, key);
-    } else if (key > Tree[index]) {
-        return FindKeyHelper(rightChildIndex, key);
-    }
-    return null;
-}
+        Integer left = FindKeyHelper(index * 2 + 1, key);
+        if (left != null) return left;
 
+        Integer right = FindKeyHelper(index * 2 + 2, key);
+        if (right != null) return right;
+
+        return null;
+    }
 
     public int AddKey(int key) {
         // Работа с корневым узлом
@@ -82,6 +90,38 @@ private Integer FindKeyHelper(int index, int key) {
             else return index;
         }
         return -1; // если не удалось добавить элемент, возвращаем -1
+    }
+
+    // вспомогательный метод поиска элемента в массиве дерева
+    public int containsKey(int key) {
+        for (int i=0; i<Tree.length; i++) {
+            if (Tree[i] == null) continue;
+            if (Tree[i] == key) {
+                return i; // если нашли - вернули индекс
+            }
+        }
+        return -1; // если элемент не найден
+    }
+
+    // вспомогательный метод - создание массива с рандомными значениями
+    public static Integer[] randArray (int size, int min, int max) {
+        Integer[] array = new Integer[size];
+        for (int i=0; i<array.length; i++) {
+            array[i] = getRandomNumber(min, max);
+        }
+        return array;
+    }
+
+    // Генерация рандомных значений
+    public static int getRandomNumber(int min, int max) {
+        return (int) (Math.random() * (max - min + 1) + min);
+    }
+
+    // Вспомогательный метод - заполняем дерево значениями из массива
+    public void fillTree(Integer[] array) {
+        for (int i=0; i<array.length; i++) {
+            this.AddKey(array[i]);
+        }
     }
 }
 /*
