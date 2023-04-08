@@ -30,33 +30,35 @@ class aBST {
         System.out.println();
     }
 
-    public Integer FindKeyIndex(int key) {
-    return FindKeyHelper(0, key); // запускаем вспомогательный метод с начальным индексом 0
+   public Integer FindKeyIndex(int key) {
+    return FindKeyHelper(0, key);
 }
 
 private Integer FindKeyHelper(int index, int key) {
-    // если текущий индекс больше либо равен длине дерева или текущий узел пуст, то возвращаем null
     if (index >= Tree.length || Tree[index] == null) {
-        return null;
+        // Если индекс больше или равен длине массива или элемент по этому индексу null,
+        // значит мы дошли до конца дерева или встретили незаполненный узел.
+        // В любом случае, надо проверить, можно ли вставить искомый ключ в текущую ячейку дерева.
+        // Если да, то мы должны вернуть отрицательный индекс текущей ячейки, чтобы указать на возможное место вставки ключа.
+        if (index * 2 + 1 < Tree.length) { // проверяем, существует ли левый потомок
+            return -index - 1; // индекс ячейки, где можно было бы вставить искомый ключ
+        } else {
+            return null; // индекса ячейки для вставки ключа нет, поэтому возвращаем null
+        }
     }
-    // если текущий узел содержит переданный ключ, то возвращаем его индекс
     if (Tree[index] == key) {
         return index;
     }
-    // определяем индексы дочерних узлов
     int leftChildIndex = 2 * index + 1;
     int rightChildIndex = 2 * index + 2;
-    // если левый дочерний узел существует и его значение меньше искомого ключа, то продолжаем поиск в левом поддереве
-    if (leftChildIndex < Tree.length && key < Tree[index]) {
+    if (key < Tree[index]) {
         return FindKeyHelper(leftChildIndex, key);
-    }
-    // если правый дочерний узел существует и его значение больше искомого ключа, то продолжаем поиск в правом поддереве
-    if (rightChildIndex < Tree.length && key > Tree[index]) {
+    } else if (key > Tree[index]) {
         return FindKeyHelper(rightChildIndex, key);
     }
-    // если узел с искомым ключом не найден, возвращаем null
     return null;
 }
+
 
     public int AddKey(int key) {
         // Работа с корневым узлом
