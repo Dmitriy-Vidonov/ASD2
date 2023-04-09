@@ -26,6 +26,12 @@ class aBST {
         System.out.println();
     }
 
+    // Вывод содержимого рандомного массива на экран
+    public static void ShowRandomArray(Integer[] array) {
+        for(Integer element : array) System.out.print(element + " ");
+        System.out.println();
+    }
+
     public Integer FindKeyIndex(int key) {
         return FindKeyHelper(0, key);
     }
@@ -40,19 +46,19 @@ class aBST {
 
             int parentIndex = (index - 1) / 2;
             if(index == 2 * parentIndex + 2 && key > Tree[parentIndex] && key < Tree[0]
-                    && (Tree[parentIndex] < Tree[0] || Tree[parentIndex] == Tree[0])) {
+                    && (Tree[parentIndex] < Tree[0] || Objects.equals(Tree[parentIndex], Tree[0]))) {
                 return index * -1;
             }
             else if (index == 2 * parentIndex + 1 && key < Tree[parentIndex] && key < Tree[0]
-                    && (Tree[parentIndex] < Tree[0] || Tree[parentIndex] == Tree[0])) {
+                    && (Tree[parentIndex] < Tree[0] || Objects.equals(Tree[parentIndex], Tree[0]))) {
                 return index * -1;
             }
             else if(index == 2 * parentIndex + 2 && key > Tree[parentIndex] && key > Tree[0]
-                    && (Tree[parentIndex] > Tree[0] || Tree[parentIndex] == Tree[0])) {
+                    && (Tree[parentIndex] > Tree[0] || Objects.equals(Tree[parentIndex], Tree[0]))) {
                 return index * -1;
             }
             else if(index == 2 * parentIndex + 1 && key < Tree[parentIndex] && key > Tree[0]
-                    && (Tree[parentIndex] > Tree[0] || Tree[parentIndex] == Tree[0])) {
+                    && (Tree[parentIndex] > Tree[0] || Objects.equals(Tree[parentIndex], Tree[0]))) {
                 return index * -1;
             }
             else {
@@ -93,14 +99,17 @@ class aBST {
     }
 
     // вспомогательный метод поиска элемента в массиве дерева
-    public int containsKey(int key) {
+    public int[] containsKey(int key) {
+        int[] resultArray = {0, 0}; // массив с результатами работы
         for (int i=0; i<Tree.length; i++) {
             if (Tree[i] == null) continue;
             if (Tree[i] == key) {
-                return i; // если нашли - вернули индекс
+                resultArray[0] += 1;
+                resultArray[1] = i;
+                return resultArray; // если нашли - вернули индекс
             }
         }
-        return -1; // если элемент не найден
+        return resultArray; // если элемент не найден
     }
 
     // вспомогательный метод - создание массива с рандомными значениями
@@ -113,14 +122,69 @@ class aBST {
     }
 
     // Генерация рандомных значений
-    public static int getRandomNumber(int min, int max) {
+    private static int getRandomNumber(int min, int max) {
         return (int) (Math.random() * (max - min + 1) + min);
+    }
+
+    // Вспомогательный метод - проверка метода AddKey() с рандомным списком значений
+    public void AddKeyTest(Integer[] array) {
+        boolean result = false;
+        int indexOfAddedElement;
+        for(Integer element : array) {
+           indexOfAddedElement = this.AddKey(element); // добавили элемент списка в наше дерево
+            // если ключ в дерево добавить не смогли и в дереве такого элемента нет
+           if(indexOfAddedElement == -1 && containsKey(element)[0] == 0) {
+               result = true;
+           }
+           // если ключ в дереве нашелся, а метод AddKey() ключ вроде как добавить не смог
+           if(indexOfAddedElement == -1 && (containsKey(element)[0] > 0 && containsKey(element)[1] >= 0)) {
+               result = false;
+               System.out.println("Ошибка. AddKey() не смог добавить ключ, а в массиве ключ нашелся. Ключ = " + element
+                       + ". Индекс элемента в массиве = " + containsKey(element)[1]);
+               break;
+           }
+           // Если в дерево удалось добавить элемент и такой ключ в дереве есть
+           if(indexOfAddedElement != -1 && (containsKey(element)[0] != 0)) {
+                result = true;
+           }
+           // Если в дерево удалось добавить элемент, но в массиве такого значения нет
+           if(indexOfAddedElement != -1 && (containsKey(element)[0] == 0 && containsKey(element)[1] == 0)) {
+               result = false;
+               System.out.println("Ошибка. AddKey() добавил ключ, а в массиве он нашелся. Ключ = " + element);
+               break;
+           }
+           // Проверяем равенство AddKey(key) и значение Treeindex - работу метода и реального индекса в дереве
+           if(AddKey(element) == containsKey(element)[1]) {
+               result = true;
+           }
+           // Если метод AddKey(key) и containsKey() отдают разные индексы
+           if (indexOfAddedElement != -1 && containsKey(element)[1] != indexOfAddedElement){
+               result = false;
+               System.out.println("Ошибка. Работа AddKey() не равна работе containsKey(). key = " + element
+                       + ". Индекс ключа в массиве = " + containsKey(element)[1]);
+               break;
+            }
+        }
+        System.out.println("Результат = " + result);
+        System.out.println("Проверка массива: ");
+        // Проверяем заполненное дерево массива
+        TreeArrayCheck();
+    }
+
+    // Вспомогательный метод - Проверка заполнения массива дерева
+    public void TreeArrayCheck() {
+        for(int i=0; i<this.Tree.length; i++) {
+            if(!(i == AddKey(this.Tree[i])))
+                System.out.println("Ошибка проверки массива дерева: индекс = " + i + ". Элемент = " + this.Tree[i]);
+                break;
+        }
+        System.out.println("Проверка массива дерева прошла успешно!");
     }
 
     // Вспомогательный метод - заполняем дерево значениями из массива
     public void fillTree(Integer[] array) {
-        for (int i=0; i<array.length; i++) {
-            this.AddKey(array[i]);
+        for (Integer integer : array) {
+            this.AddKey(integer);
         }
     }
 }

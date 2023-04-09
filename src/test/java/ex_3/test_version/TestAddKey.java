@@ -1,6 +1,7 @@
 package ex_3.test_version;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -130,5 +131,31 @@ class TestAddKey {
         assertEquals(-1, tree.AddKey(25));
         // Добавить узел больше правого узла
         assertEquals(-1, tree.AddKey(250));
+    }
+
+    // РАБОТА С БОЛЬШИМИ ДЕРЕВЬЯМИ
+    @Test
+    @DisplayName("8) Работа с большим деревом. 10 уровней.")
+    void addKeyLargeTree() {
+        // Тестируем метод проверки работы AddKey() на большим числе ключей
+        aBST treeTest = new aBST(10);
+        // Создаем рандомный массив
+        Integer[] array =  aBST.randArray(treeTest.Tree.length, -1000, 1000);
+        aBST.ShowRandomArray(array);
+
+        treeTest.AddKeyTest(array);
+    }
+
+    // МНОГОКРАТНОЕ ПОВТОРЕНИЕ ТЕСТА
+    @RepeatedTest(100)
+    @DisplayName("8) Многократное повторение теста. Дерево на 10 уровней.")
+    void addKeyMultiple() {
+        // Тестируем метод проверки работы AddKey() на большим числе ключей
+        aBST treeTest = new aBST(10);
+        // Создаем рандомный массив
+        Integer[] array =  aBST.randArray(treeTest.Tree.length, -1000, 1000);
+        aBST.ShowRandomArray(array);
+
+        treeTest.AddKeyTest(array);
     }
 }
