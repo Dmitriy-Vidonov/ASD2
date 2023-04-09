@@ -36,7 +36,7 @@ class aBST {
         if (Tree[index] != null && Tree[index] == key) return index;
 
         if (Tree[index] == null) {
-            if (index == 0) return null;
+            if (index == 0) return 0; // Если дерево пустое. не ясно - возможно тут нужно вернуть null, если дерево пустое. раньше было null
 
             int parentIndex = (index - 1) / 2;
             if(index == 2 * parentIndex + 2 && key > Tree[parentIndex] && key < Tree[0]
