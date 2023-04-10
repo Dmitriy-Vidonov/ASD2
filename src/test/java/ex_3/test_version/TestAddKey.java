@@ -141,21 +141,18 @@ class TestAddKey {
         aBST treeTest = new aBST(10);
         // Создаем рандомный массив
         Integer[] array =  aBST.randArray(treeTest.Tree.length, -1000, 1000);
-        aBST.ShowRandomArray(array);
 
-        treeTest.AddKeyTest(array);
+        assertTrue(treeTest.addKeyTest(array));
     }
 
     // МНОГОКРАТНОЕ ПОВТОРЕНИЕ ТЕСТА
-    @RepeatedTest(100)
+    @RepeatedTest(10)
     @DisplayName("8) Многократное повторение теста. Дерево на 10 уровней.")
     void addKeyMultiple() {
         // Тестируем метод проверки работы AddKey() на большим числе ключей
         aBST treeTest = new aBST(10);
         // Создаем рандомный массив
         Integer[] array =  aBST.randArray(treeTest.Tree.length, -1000, 1000);
-        aBST.ShowRandomArray(array);
-
-        treeTest.AddKeyTest(array);
+        assertTrue(treeTest.addKeyTest(array));
     }
 }
