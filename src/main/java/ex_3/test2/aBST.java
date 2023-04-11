@@ -43,6 +43,45 @@ public class aBST {
         return null; // не найден
     }
 
+    public int AddKey1(int key) {
+        int index = 0;
+        int parentIndex = -1;
+        while (index < Tree.length && Tree[index] != null) {
+            if (Tree[index] == key) {
+                return index;
+            }
+            parentIndex = index;
+            if (key < Tree[index]) {
+                index = 2 * index + 1;
+            } else {
+                index = 2 * index + 2;
+            }
+        }
+        if (index < Tree.length) {
+            Tree[index] = key;
+            if (parentIndex != -1 && (key < Tree[parentIndex] || Tree[parentIndex] == null)) {
+                return index;
+            }
+            int childIndex = index;
+            while (childIndex > 0) {
+                parentIndex = (childIndex - 1) / 2;
+                if (key > Tree[parentIndex]) {
+                    return index;
+                }
+                swap(Tree, childIndex, parentIndex);
+                childIndex = parentIndex;
+            }
+            return index;
+        }
+        return -1;
+    }
+
+    private void swap(Integer[] arr, int i, int j) {
+        Integer temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+
     public int AddKey(int key)
     {
         // индекс добавленного/существующего ключа или -1 если не удалось
@@ -53,45 +92,45 @@ public class aBST {
     public int treeWalker(int index, Integer key) { // от какого индекса обход и куда сложим элементы
         if(index >= this.Tree.length) return -1; // если мы достигли листа, у которого нет потомков и ничего не добавили
         // Частный случай, когда корня в дереве еще нет или он такой же как и добавляемый ключ
-        if(this.Tree[0] == null) {
-            this.Tree[0] = key;
-            return 0; // вернули индекс корня
+        // Работа с корневым узлом
+        if (Tree[0] == null) {
+            Tree[0] = key;
+            return 0;
         }
+        // Если дубль
+        if (Tree[index] != null && Tree[index] == key) return index;
 
         // Работаем с текущей ячейкой массива
         int parent = (index-1)/2;
-        // ДЛЯ ЛЕВОЙ ВЕТКИ
-        // если ячейка пуста и в нее можно добавить левого потомка
-        if(this.Tree[parent] != null && this.Tree[index] == null && isLeftChild(index) && key < this.Tree[parent]
-                && this.Tree[parent] <= this.Tree[0] && key < this.Tree[0]) {
-            this.Tree[index] = key;
-            return index; // завершаем работу метода на текущем index
-        }
-        // если ячейка пуста и в нее можно добавить правого потомка
-        if(this.Tree[parent] != null && this.Tree[index] == null && !isLeftChild(index) && key > this.Tree[parent]
-                && this.Tree[parent] <= this.Tree[0] && key < this.Tree[0]) {
-            this.Tree[index] = key;
-            return index;
-        }
-        // ДЛЯ ПРАВОЙ ВЕТКИ
-        // если ячейка пуста и в нее можно добавить левого потомка
-        if(this.Tree[parent] != null && this.Tree[index] == null && isLeftChild(index) && key < this.Tree[parent]
-                && this.Tree[parent] >= this.Tree[0] && key > this.Tree[0]) {
-            this.Tree[index] = key;
-            return index; // завершаем работу метода на текущем index
-        }
-        // если ячейка пуста и в нее можно добавить правого потомка
-        if(this.Tree[parent] != null && this.Tree[index] == null && !isLeftChild(index) && key > this.Tree[parent]
-                && this.Tree[parent] >= this.Tree[0] && key > this.Tree[0]) {
-            this.Tree[index] = key;
-            return index;
-        }
-        // если попытались добавить дубль
-        else if (Objects.equals(Tree[index], key))
-        {
-            return index;
-        }
 
+        if(Tree[index] == null) {
+            // ДЛЯ ЛЕВОЙ ВЕТКИ
+            // если ячейка пуста и в нее можно добавить левого потомка
+            if(Tree[parent] != null && isLeftChild(index) && key < Tree[parent]
+                    && Tree[parent] <= Tree[0] && key < Tree[0]) {
+                Tree[index] = key;
+                return index; // завершаем работу метода на текущем index
+            }
+            // если ячейка пуста и в нее можно добавить правого потомка
+            if(Tree[parent] != null && !isLeftChild(index) && key > Tree[parent]
+                    && Tree[parent] <= Tree[0] && key < Tree[0]) {
+                Tree[index] = key;
+                return index;
+            }
+            // ДЛЯ ПРАВОЙ ВЕТКИ
+            // если ячейка пуста и в нее можно добавить левого потомка
+            if(Tree[parent] != null && isLeftChild(index) && key < Tree[parent]
+                    && Tree[parent] >= Tree[0] && key > Tree[0]) {
+                Tree[index] = key;
+                return index; // завершаем работу метода на текущем index
+            }
+            // если ячейка пуста и в нее можно добавить правого потомка
+            if(Tree[parent] != null && !isLeftChild(index) && key > Tree[parent]
+                    && Tree[parent] >= Tree[0] && key > Tree[0]) {
+                Tree[index] = key;
+                return index;
+            }
+        }
         // обходим левое дерево
         treeWalker(2 * index + 1, key);
         // обходим правое дерево
@@ -107,13 +146,16 @@ public class aBST {
     // Тесты
     public static void main(String[] args) {
         aBST tree = new aBST(2);
-        System.out.println(tree.AddKey(10)); // 0
-        System.out.println(tree.AddKey(8)); // 1
-        System.out.println(tree.AddKey(20)); // 2
-        System.out.println(tree.AddKey(7)); // 3
-        System.out.println(tree.AddKey(15)); // 5
-        System.out.println(tree.AddKey(25)); // 6
-        System.out.println(tree.AddKey(6)); // -1
+        System.out.println(tree.AddKey1(10)); // 0
+        System.out.println(tree.AddKey1(10)); // 0
+        System.out.println(tree.AddKey1(10)); // 0
+        System.out.println(tree.AddKey1(8)); // 1
+        System.out.println(tree.AddKey1(20)); // 2
+        System.out.println(tree.AddKey1(7)); // 3
+        System.out.println(tree.AddKey1(15)); // 5
+        System.out.println(tree.AddKey1(25)); // 6
+        System.out.println(tree.AddKey1(6)); // -1
+        System.out.println(tree.AddKey1(6)); // -1
         tree.ShowArray();
     }
 }
