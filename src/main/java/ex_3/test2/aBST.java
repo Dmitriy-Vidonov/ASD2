@@ -45,7 +45,6 @@ public class aBST {
 
     public int AddKey(int key)
     {
-        // Отсюда мы просто вызываем рекурсивный метод, передавая ему данные
         // индекс добавленного/существующего ключа или -1 если не удалось
         return treeWalker(0, key); // начинаем с нулевого индекса
     }
@@ -58,36 +57,41 @@ public class aBST {
             this.Tree[0] = key;
             return 0; // вернули индекс корня
         }
+
         // Работаем с текущей ячейкой массива
         int parent = (index-1)/2;
         // ДЛЯ ЛЕВОЙ ВЕТКИ
         // если ячейка пуста и в нее можно добавить левого потомка
-        if(this.Tree[index] == null && isLeftChild(index) && key < this.Tree[parent]
-                && this.Tree[parent] <= this.Tree[0]) {
+        if(this.Tree[parent] != null && this.Tree[index] == null && isLeftChild(index) && key < this.Tree[parent]
+                && this.Tree[parent] <= this.Tree[0] && key < this.Tree[0]) {
             this.Tree[index] = key;
             return index; // завершаем работу метода на текущем index
         }
         // если ячейка пуста и в нее можно добавить правого потомка
-        if(this.Tree[index] == null && !isLeftChild(index) && key > this.Tree[parent]
-                && this.Tree[parent] <= this.Tree[0]) {
+        if(this.Tree[parent] != null && this.Tree[index] == null && !isLeftChild(index) && key > this.Tree[parent]
+                && this.Tree[parent] <= this.Tree[0] && key < this.Tree[0]) {
             this.Tree[index] = key;
             return index;
         }
         // ДЛЯ ПРАВОЙ ВЕТКИ
         // если ячейка пуста и в нее можно добавить левого потомка
-        if(this.Tree[index] == null && isLeftChild(index) && key < this.Tree[parent]
-                && this.Tree[parent] >= this.Tree[0]) {
+        if(this.Tree[parent] != null && this.Tree[index] == null && isLeftChild(index) && key < this.Tree[parent]
+                && this.Tree[parent] >= this.Tree[0] && key > this.Tree[0]) {
             this.Tree[index] = key;
             return index; // завершаем работу метода на текущем index
         }
         // если ячейка пуста и в нее можно добавить правого потомка
-        if(this.Tree[index] == null && !isLeftChild(index) && key > this.Tree[parent]
-                && this.Tree[parent] >= this.Tree[0]) {
+        if(this.Tree[parent] != null && this.Tree[index] == null && !isLeftChild(index) && key > this.Tree[parent]
+                && this.Tree[parent] >= this.Tree[0] && key > this.Tree[0]) {
             this.Tree[index] = key;
             return index;
         }
         // если попытались добавить дубль
-        if (Objects.equals(Tree[index], key)) return index;
+        else if (Objects.equals(Tree[index], key))
+        {
+            return index;
+        }
+
         // обходим левое дерево
         treeWalker(2 * index + 1, key);
         // обходим правое дерево
@@ -103,9 +107,13 @@ public class aBST {
     // Тесты
     public static void main(String[] args) {
         aBST tree = new aBST(2);
-        tree.AddKey(10);
-        tree.AddKey(8);
-     //   tree.AddKey(20);
+        System.out.println(tree.AddKey(10)); // 0
+        System.out.println(tree.AddKey(8)); // 1
+        System.out.println(tree.AddKey(20)); // 2
+        System.out.println(tree.AddKey(7)); // 3
+        System.out.println(tree.AddKey(15)); // 5
+        System.out.println(tree.AddKey(25)); // 6
+        System.out.println(tree.AddKey(6)); // -1
         tree.ShowArray();
     }
 }
