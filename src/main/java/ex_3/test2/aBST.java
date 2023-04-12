@@ -90,26 +90,28 @@ public class aBST {
 
     // Рекурсивный обход дерева, pre-order, префиксный обход
     public int treeWalker(int index, Integer key) { // от какого индекса обход и куда сложим элементы
-        if(index >= this.Tree.length) return -1; // если мы достигли листа, у которого нет потомков и ничего не добавили
-        // Частный случай, когда корня в дереве еще нет или он такой же как и добавляемый ключ
-        // Работа с корневым узлом
-        if (Tree[0] == null) {
-            Tree[0] = key;
-            return 0;
-        }
+        if(index >= this.Tree.length) return index; // если мы достигли листа, у которого нет потомков и ничего не добавили
         // Если дубль
-        if (Tree[index] != null && Tree[index] == key) return index;
-
+        if (Tree[index] != null && Tree[index] == key)
+        {
+            return index;
+        }
         // Работаем с текущей ячейкой массива
         int parent = (index-1)/2;
 
         if(Tree[index] == null) {
+            // Частный случай, когда корня в дереве еще нет или он такой же как и добавляемый ключ
+            // Работа с корневым узлом
+            if(index == 0) {
+                Tree[index] = key;
+                return index;
+            }
             // ДЛЯ ЛЕВОЙ ВЕТКИ
             // если ячейка пуста и в нее можно добавить левого потомка
             if(Tree[parent] != null && isLeftChild(index) && key < Tree[parent]
                     && Tree[parent] <= Tree[0] && key < Tree[0]) {
                 Tree[index] = key;
-                return index; // завершаем работу метода на текущем index
+                return index;
             }
             // если ячейка пуста и в нее можно добавить правого потомка
             if(Tree[parent] != null && !isLeftChild(index) && key > Tree[parent]
@@ -146,16 +148,14 @@ public class aBST {
     // Тесты
     public static void main(String[] args) {
         aBST tree = new aBST(2);
-        System.out.println(tree.AddKey1(10)); // 0
-        System.out.println(tree.AddKey1(10)); // 0
-        System.out.println(tree.AddKey1(10)); // 0
-        System.out.println(tree.AddKey1(8)); // 1
-        System.out.println(tree.AddKey1(20)); // 2
-        System.out.println(tree.AddKey1(7)); // 3
-        System.out.println(tree.AddKey1(15)); // 5
-        System.out.println(tree.AddKey1(25)); // 6
-        System.out.println(tree.AddKey1(6)); // -1
-        System.out.println(tree.AddKey1(6)); // -1
+        System.out.println(tree.AddKey(10)); // 0
+        System.out.println(tree.AddKey(10)); // 0
+        System.out.println(tree.AddKey(8)); // 1
+        System.out.println(tree.AddKey(20)); // 2
+        System.out.println(tree.AddKey(7)); // 3
+        System.out.println(tree.AddKey(15)); // 5
+        System.out.println(tree.AddKey(25)); // 6
+        System.out.println(tree.AddKey(6)); // -1
         tree.ShowArray();
     }
 }
