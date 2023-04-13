@@ -1,6 +1,5 @@
 package ex_3.final_version;
 
-import ex_3.test2.aBST;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +11,7 @@ class TestAddKey {
     @Test
     @DisplayName("1) Пустые деревья. Дерево из одного узла.")
     void addKeyOneNodeTree() {
-        ex_3.test2.aBST tree = new ex_3.test2.aBST(0);
+        aBST tree = new aBST(0);
         // Добавили корень
         assertEquals(0, tree.AddKey(10));
         // Добавить дубль корня
@@ -26,7 +25,7 @@ class TestAddKey {
     @Test
     @DisplayName("2) Пустые деревья. Дерево из 7 узлов.")
     void addKeyEmptySevenNodesTree() {
-        ex_3.test2.aBST tree = new ex_3.test2.aBST(2);
+        aBST tree = new aBST(2);
         // Добавили корень
         assertEquals(0, tree.AddKey(10));
         // Добавить дубль корня
@@ -45,7 +44,7 @@ class TestAddKey {
     @Test
     @DisplayName("3) Частично заполнено. 7 узлов. Заполнен только корень.")
     void addKeyPartlyFilledOnlyRootSevenNodesTree() {
-        ex_3.test2.aBST tree = new ex_3.test2.aBST(2);
+        aBST tree = new aBST(2);
         // Добавили корень
         assertEquals(0, tree.AddKey(10));
         // Добавить дубль корня
@@ -55,7 +54,7 @@ class TestAddKey {
     @Test
     @DisplayName("4) Частично заполнено. 7 узлов. Заполнена вся левая ветка. У родителя левого листа есть правый потомок")
     void addKeyPartlyFilledLeftBranchLeftLeafParentHasBothChildren() {
-        ex_3.test2.aBST tree = new ex_3.test2.aBST(2);
+        aBST tree = new aBST(2);
         // Добавили корень
         assertEquals(0, tree.AddKey(100));
         // Добавить левого потомка корня
@@ -83,7 +82,7 @@ class TestAddKey {
     @Test
     @DisplayName("5) Частично заполнено. 7 узлов. Заполнена вся левая ветка. У корня левого листа нет правого потомка.")
     void addKeyPartlyFilledLeftBranchLeftLeafParentHasOnlyLeftChild() {
-        ex_3.test2.aBST tree = new ex_3.test2.aBST(2);
+        aBST tree = new aBST(2);
         // Добавили корень
         assertEquals(0, tree.AddKey(100));
         // Добавить левого потомка корня
@@ -99,7 +98,7 @@ class TestAddKey {
     @Test
     @DisplayName("6) Частично заполнено. 7 узлов. Заполнена вся правая ветка.")
     void addKeyPartlyFilledRightBranch() {
-        ex_3.test2.aBST tree = new ex_3.test2.aBST(2);
+        aBST tree = new aBST(2);
         // Добавили корень
         assertEquals(0, tree.AddKey(100));
         // Добавить правого потомка корня
@@ -114,7 +113,7 @@ class TestAddKey {
     @Test
     @DisplayName("7) Дерево заполнено полностью. 3 узла.")
     void addKeyFullFilledTree() {
-        ex_3.test2.aBST tree = new aBST(1);
+        aBST tree = new aBST(1);
         // Добавили корень
         assertEquals(0, tree.AddKey(100));
         // Добавить левого потомка корня
