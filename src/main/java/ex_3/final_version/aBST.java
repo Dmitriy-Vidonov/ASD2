@@ -1,4 +1,3 @@
-package ex_3.final_version;
 import java.util.*;
 
 class aBST
@@ -60,59 +59,25 @@ class aBST
         return null;
     }
 
-    public int AddKey(int key)
-    {
-        int[] arr = {-1};
-        return treeWalker(0, key, arr);
-    }
-
-    public int treeWalker(int index, Integer key, int[] arr) {
-        if(index >= this.Tree.length) return arr[0];
-        if (Tree[index] != null && Objects.equals(Tree[index], key))
-        {
-            arr[0] = index;
-            return index;
+    public int AddKey(int key) {
+        if (Tree[0] == null) {
+            Tree[0] = key;
+            return 0;
         }
-        int parent = (index-1)/2;
 
-        if(Tree[index] == null) {
-            if(Tree[index] == null) {
-                if(index == 0) {
-                    Tree[index] = key;
-                    arr[0] = index;
-                    return index;
-                }
-                if(Tree[parent] != null && isLeftChild(index) && key < Tree[parent]
-                        && Tree[parent] <= Tree[0] && key < Tree[0]) {
-                    Tree[index] = key;
-                    arr[0] = index;
-                    return index;
-                }
-                if(Tree[parent] != null && !isLeftChild(index) && key > Tree[parent]
-                        && Tree[parent] <= Tree[0] && key < Tree[0]) {
-                    Tree[index] = key;
-                    arr[0] = index;
-                    return index;
-                }
-                if(Tree[parent] != null && isLeftChild(index) && key < Tree[parent]
-                        && Tree[parent] >= Tree[0] && key > Tree[0]) {
-                    Tree[index] = key;
-                    arr[0] = index;
-                    return index;
-                }
-                if(Tree[parent] != null && !isLeftChild(index) && key > Tree[parent]
-                        && Tree[parent] >= Tree[0] && key > Tree[0]) {
-                    Tree[index] = key;
-                    arr[0] = index;
-                    return index;
-                }
+        int index = 0;
+        while (index < Tree.length) {
+            if (Tree[index] == null) {
+                Tree[index] = key;
+                return index;
+            } else if (key < Tree[index]) {
+                index = 2 * index + 1;
+            } else if (key > Tree[index]) {
+                index = 2 * index + 2;
+            } else if (key == Tree[index]) {
+                return index;
             }
         }
-        treeWalker(index * 2 + 1, key, arr);
-        treeWalker(index * 2 + 2, key, arr);
-        return arr[0];
-    }
-    public boolean isLeftChild(int index) {
-        return ((index - 1)/2 == (index/2));
+        return -1;
     }
 }
