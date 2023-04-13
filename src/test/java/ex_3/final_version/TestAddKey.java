@@ -131,4 +131,21 @@ class TestAddKey {
         // Добавить узел больше правого узла
         assertEquals(-1, tree.AddKey(250));
     }
+    
+     // Проверка деревом глубиной 3 (из учебного примера)
+    @Test
+    @DisplayName("8) Дерево глубиной 3 из учебного примера")
+    void addKeyTrainingExample() {
+        aBST tree = new aBST(3);
+        assertEquals(0, tree.AddKey(50));
+        assertEquals(1, tree.AddKey(25));
+        assertEquals(2, tree.AddKey(75));
+        assertEquals(4, tree.AddKey(37));
+        assertEquals(5, tree.AddKey(62));
+        assertEquals(6, tree.AddKey(84));
+        assertEquals(9, tree.AddKey(31));
+        assertEquals(10, tree.AddKey(43));
+        assertEquals(11, tree.AddKey(55));
+        assertEquals(14, tree.AddKey(92));
+    }
 } 
